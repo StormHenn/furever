@@ -14,7 +14,7 @@ describe('Onboarding', () => {
     expect(screen.getByText('Team Woof or Team Meow?')).toBeInTheDocument()
     fireEvent.click(screen.getByText('Team Woof'))
     expect(screen.getByText(/step:1/)).toBeInTheDocument()
-    expect(screen.getByText(/What.s home like\?/)).toBeInTheDocument()
+    expect(screen.getByText(/What['’]s home like\?/)).toBeInTheDocument()
   })
 
   it('skip jumps to discover', () => {
