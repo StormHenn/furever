@@ -94,7 +94,8 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, story: { idx: action.idx, pic: 0 } }
     case 'ADVANCE_STORY': {
       if (!state.story) return state
-      return { ...state, story: nextStory(state.story, shelterStories.length) }
+      const deck = shelterStories[state.story.idx].events.length
+      return { ...state, story: nextStory(state.story, deck, shelterStories.length) }
     }
     case 'CLOSE_STORY':
       return { ...state, story: null }

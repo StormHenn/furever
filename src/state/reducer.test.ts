@@ -59,12 +59,15 @@ describe('reducer', () => {
     expect(s.filters.species).toBe('all')
   })
 
-  it('ADVANCE_STORY walks pics then closes', () => {
+  it('ADVANCE_STORY walks a deck then closes', () => {
+    // Agency index 2 (Paws & Effect) has exactly 3 slides.
     let s = reducer(initialState, { type: 'OPEN_STORY', idx: 2 })
     expect(s.story).toEqual({ idx: 2, pic: 0 })
-    s = reducer(s, { type: 'ADVANCE_STORY' }) // pic 1
-    s = reducer(s, { type: 'ADVANCE_STORY' }) // pic 2
-    s = reducer(s, { type: 'ADVANCE_STORY' }) // past last → close
+    s = reducer(s, { type: 'ADVANCE_STORY' })
+    expect(s.story).toEqual({ idx: 2, pic: 1 })
+    s = reducer(s, { type: 'ADVANCE_STORY' })
+    expect(s.story).toEqual({ idx: 2, pic: 2 })
+    s = reducer(s, { type: 'ADVANCE_STORY' }) // past last slide → close
     expect(s.story).toBeNull()
   })
 
