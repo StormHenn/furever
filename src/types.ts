@@ -1,3 +1,5 @@
+import type { AgencyTint } from './components/AgencyEmblem'
+
 export type Species = 'dog' | 'cat'
 export type Compat = 'YES' | 'NO' | 'ASK'
 
@@ -19,12 +21,30 @@ export interface Animal {
   bio: string
 }
 
+export type AdoptionEventKind = 'upcoming' | 'recap'
+
+export interface AdoptionEvent {
+  kind: AdoptionEventKind
+  photoId?: string // reuse an existing pet id as the backdrop
+  title?: string
+  // upcoming (flyer):
+  day?: string
+  time?: string
+  place?: string
+  pitch?: string
+  // recap:
+  stat?: string
+  crowd?: string
+  thanks?: string
+}
+
 export interface ShelterStory {
   id: string
   shelter: string
   short: string
-  when: string
-  note: string
+  mono: string
+  tint: AgencyTint
+  events: AdoptionEvent[]
 }
 
 export type Screen = 'login' | 'onboarding' | 'discover' | 'matches' | 'chat' | 'profile'
