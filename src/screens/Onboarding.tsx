@@ -6,7 +6,7 @@ export function Onboarding() {
   const step = quizSteps[Math.min(state.obStep, 2)]
 
   return (
-    <div className="flex flex-1 animate-fade-in flex-col px-6 pb-[34px] pt-[26px]">
+    <div className="flex min-h-0 flex-1 animate-fade-in flex-col overflow-y-auto px-6 pb-[calc(env(safe-area-inset-bottom,0px)+26px)] pt-[26px]">
       <div className="flex items-center justify-between">
         <div className="font-mono text-[10px] font-semibold tracking-[0.22em]">FUREVER · VIBE CHECK</div>
         <div className="rotate-3 rounded-full border-[1.5px] border-dashed border-rust px-2 py-[3px] font-mono text-[10px] tracking-[0.15em] text-rust">

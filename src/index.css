@@ -42,7 +42,7 @@
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fall {
   0% { transform: translateY(-60px) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(820px) rotate(320deg); opacity: 0.5; }
+  100% { transform: translateY(110dvh) rotate(320deg); opacity: 0.5; }
 }
 @keyframes storybar { from { width: 0%; } to { width: 100%; } }
 @keyframes wiggle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
@@ -54,10 +54,22 @@
   }
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
   background: var(--color-paperdark);
+  /* The shell owns every scroll container, so the page itself never moves —
+     kills iOS rubber-banding and the address-bar shuffle it triggers. */
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Hide scrollbars everywhere — scrolling still works by thumb, drag, or wheel. */

@@ -52,7 +52,7 @@ export function Chat() {
 
       <form
         onSubmit={(e) => { e.preventDefault(); dispatch({ type: 'SEND_MESSAGE', text: state.chatDraft }) }}
-        className="flex gap-2.5 border-t-[1.5px] border-ink/15 px-4 pb-4 pt-2.5"
+        className="flex gap-2.5 border-t-[1.5px] border-ink/15 px-4 pb-[calc(env(safe-area-inset-bottom,0px)+16px)] pt-2.5"
       >
         <input
           value={state.chatDraft}

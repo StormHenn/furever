@@ -21,7 +21,7 @@ export function TabBar() {
           <button
             key={t.screen}
             onClick={() => dispatch({ type: 'NAVIGATE', screen: t.screen })}
-            className={`flex-1 pb-[34px] pt-6 font-mono text-xs tracking-[0.18em] active:scale-95 ${active ? 'font-semibold text-rust' : 'text-ink/50'}`}
+            className={`flex-1 pb-[calc(env(safe-area-inset-bottom,0px)+22px)] pt-[22px] font-mono text-xs tracking-[0.18em] active:scale-95 ${active ? 'font-semibold text-rust' : 'text-ink/50'}`}
           >
             {label}
           </button>

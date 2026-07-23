@@ -1,4 +1,4 @@
-import { IOSFrame } from './components/IOSFrame'
+import { AppShell } from './components/AppShell'
 import { TabBar } from './components/TabBar'
 import { Login } from './screens/Login'
 import { Onboarding } from './screens/Onboarding'
@@ -29,13 +29,13 @@ export default function App() {
   const showTabs = state.screen !== 'login' && state.screen !== 'onboarding' && state.screen !== 'chat'
 
   return (
-    <IOSFrame>
+    <AppShell>
       <Screen />
       {showTabs && <TabBar />}
       <DetailSheet />
       <FiltersSheet />
       <StoryViewer />
       <MatchCelebration />
-    </IOSFrame>
+    </AppShell>
   )
 }

@@ -10,7 +10,7 @@ export function Login() {
     'rounded-[14px] border-[1.5px] border-ink bg-card px-4 py-[15px] font-body text-[14.5px] text-ink shadow-paper outline-none focus:border-rust'
 
   return (
-    <div className="flex flex-1 animate-fade-in flex-col px-[26px] pb-10 pt-[30px]">
+    <div className="flex min-h-0 flex-1 animate-fade-in flex-col overflow-y-auto px-[26px] pb-[calc(env(safe-area-inset-bottom,0px)+40px)] pt-[30px]">
       <div className="mt-2.5 flex justify-center">
         <span className="-rotate-2 rounded-full border-[1.5px] border-dashed border-rust px-3 py-1 font-mono text-[10px] font-semibold tracking-[0.22em] text-rust">
           EST. RIGHT MEOW
