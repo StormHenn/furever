@@ -16,6 +16,15 @@ describe('Discover', () => {
     expect(screen.getAllByText('Haku').length).toBeGreaterThan(0)
   })
 
+  it('draws the like heart as artwork, not the U+2665 character', () => {
+    render(<AppProvider><Discover /></AppProvider>)
+    const like = screen.getByLabelText('Like')
+    // iOS renders `♥` through Apple Color Emoji, which ignores CSS colour and
+    // shows red where the button asks for paper. Ours has to be a real shape.
+    expect(like.querySelector('svg')).not.toBeNull()
+    expect(like.textContent).not.toContain('♥')
+  })
+
   it('the like button records a like on the top card', () => {
     vi.useFakeTimers()
     try {

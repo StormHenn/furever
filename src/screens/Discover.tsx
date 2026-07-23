@@ -4,6 +4,7 @@ import { animals } from '../data/animals'
 import { shelterStories } from '../data/stories'
 import { SwipeCard } from '../components/SwipeCard'
 import { AgencyEmblem } from '../components/AgencyEmblem'
+import { Heart } from '../components/Heart'
 import { selectDeck, selectScore, selectTopId } from '../state/selectors'
 import { activeFilterCount } from '../lib/filters'
 import type { SwipeDir } from '../types'
@@ -79,7 +80,7 @@ export function Discover() {
       <div className="relative z-[5] flex items-center justify-center gap-[22px] pb-[18px]">
         <button aria-label="Pass" onClick={() => swipeTop('nope')} className="h-[58px] w-[58px] rounded-full border-[1.5px] border-ink bg-card text-[22px] text-nope shadow-paper active:scale-90">✕</button>
         <button aria-label="Details" onClick={() => topId && dispatch({ type: 'OPEN_DETAIL', id: topId })} className="h-11 w-11 rounded-full border-[1.5px] border-dashed border-ink bg-card font-display text-[17px] active:scale-90">i</button>
-        <button aria-label="Like" onClick={() => swipeTop('like')} className="h-[66px] w-[66px] rounded-full border-[1.5px] border-ink bg-rust text-[26px] text-paper shadow-paper hover:animate-wiggle active:scale-90">♥</button>
+        <button aria-label="Like" onClick={() => swipeTop('like')} className="h-[66px] w-[66px] rounded-full border-[1.5px] border-ink bg-rust text-[26px] text-paper shadow-paper hover:animate-wiggle active:scale-90"><Heart size="1.05em" className="align-middle" /></button>
       </div>
     </div>
   )

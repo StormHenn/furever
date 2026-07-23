@@ -1,5 +1,6 @@
 import { useApp } from '../state/AppContext'
 import { AnimalPhoto } from '../components/AnimalPhoto'
+import { Heart } from '../components/Heart'
 import { tiltDeg } from '../components/tilt'
 import { selectLiked, selectMutuals, selectShortlist } from '../state/selectors'
 
@@ -26,7 +27,7 @@ export function Matches() {
 
       {hasMutuals && (
         <>
-          <div className="mb-2.5 font-mono text-[9.5px] font-semibold tracking-[0.2em] text-sage">MUTUAL SPARKS ♥</div>
+          <div className="mb-2.5 font-mono text-[9.5px] font-semibold tracking-[0.2em] text-sage">MUTUAL SPARKS <Heart /></div>
           <div className="-mx-5 mb-[18px] flex gap-3 overflow-x-auto px-5 pb-2 pt-1">
             {mutuals.map((m, i) => (
               <div
@@ -37,7 +38,7 @@ export function Matches() {
                 <div className="relative h-[104px]">
                   <AnimalPhoto id={m.id} name={m.name} shape="rounded" radius={9} />
                   <span className="absolute left-1.5 top-1.5 -rotate-3 rounded-full bg-sage px-[7px] py-[3px] font-mono text-[7.5px] tracking-[0.1em] text-paper">
-                    MUTUAL ♥
+                    MUTUAL <Heart />
                   </span>
                 </div>
                 <button type="button" onClick={() => openDetail(m.id)} className="mt-[7px] block w-full cursor-pointer text-left">
@@ -91,7 +92,7 @@ export function Matches() {
 
       {noMatches && (
         <div className="flex flex-col items-center gap-3 px-[26px] pt-[70px] text-center">
-          <div className="-rotate-[8deg] font-display text-[34px] text-ink/30">♥?</div>
+          <div className="-rotate-[8deg] font-display text-[34px] text-ink/30"><Heart />?</div>
           <div className="font-display text-xl">Nobody faved. Yet.</div>
           <div className="text-[13.5px] text-ink/60">Get back out there, cupid — the deck awaits.</div>
         </div>

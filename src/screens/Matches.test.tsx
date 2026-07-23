@@ -19,7 +19,7 @@ describe('Matches', () => {
 
   it('lists a mutual and opens chat', () => {
     render(<AppProvider><Seed likes={['haku']} /></AppProvider>)
-    expect(screen.getByText('MUTUAL SPARKS ♥')).toBeInTheDocument()
+    expect(screen.getByText('MUTUAL SPARKS')).toBeInTheDocument()
     fireEvent.click(screen.getAllByText('CHAT')[0])
     expect(screen.getByText(/screen:chat/)).toBeInTheDocument()
     expect(screen.getByText(/chat:haku/)).toBeInTheDocument()

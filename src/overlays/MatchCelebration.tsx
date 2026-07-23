@@ -2,6 +2,7 @@ import { useApp } from '../state/AppContext'
 import { animals } from '../data/animals'
 import { confetti } from '../data/confetti'
 import { AnimalPhoto } from '../components/AnimalPhoto'
+import { Heart } from '../components/Heart'
 
 export function MatchCelebration() {
   const { state, dispatch } = useApp()
@@ -45,7 +46,7 @@ export function MatchCelebration() {
               <AnimalPhoto name="You" src={state.avatar ?? undefined} shape="circle" />
             </span>
           </span>
-          <span className="relative z-[2] mx-[-6px] font-display text-2xl text-rust">♥</span>
+          <span className="relative z-[2] mx-[-6px] font-display text-2xl text-rust"><Heart /></span>
           <span className="rotate-6 rounded-full border-2 border-dashed border-sage bg-paper p-[3px]">
             <span className="block h-[84px] w-[84px]">
               <AnimalPhoto id={animal.id} name={animal.name} shape="circle" />
