@@ -3,7 +3,7 @@ import { useApp } from '../state/AppContext'
 import { animals } from '../data/animals'
 import { shelterStories } from '../data/stories'
 import { SwipeCard } from '../components/SwipeCard'
-import { AnimalPhoto } from '../components/AnimalPhoto'
+import { AgencyEmblem } from '../components/AgencyEmblem'
 import { selectDeck, selectScore, selectTopId } from '../state/selectors'
 import { activeFilterCount } from '../lib/filters'
 import type { SwipeDir } from '../types'
@@ -42,7 +42,7 @@ export function Discover() {
         {shelterStories.map((s, i) => (
           <button key={s.id} onClick={() => dispatch({ type: 'OPEN_STORY', idx: i })} className="flex flex-none flex-col items-center gap-1.5 active:scale-95">
             <span className="block h-[58px] w-[58px] -rotate-3 rounded-full border-2 border-dashed border-rust p-[3px]">
-              <AnimalPhoto src={undefined} id={undefined} name={s.short} shape="circle" />
+              <AgencyEmblem mono={s.mono} tint={s.tint} />
             </span>
             <span className="max-w-[64px] truncate font-mono text-[8.5px] tracking-[0.06em] text-ink/70">{s.short}</span>
           </button>

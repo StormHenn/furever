@@ -41,6 +41,13 @@ describe('Discover', () => {
     render(<AppProvider><EmptyHarness /></AppProvider>)
     expect(screen.getByText("That's every floof in range.")).toBeInTheDocument()
   })
+
+  it('shows agency monograms in the story ring', () => {
+    render(<AppProvider><Discover /></AppProvider>)
+    expect(screen.getByText('HT')).toBeInTheDocument()
+    expect(screen.getByText('WH')).toBeInTheDocument()
+    expect(screen.getByText('PE')).toBeInTheDocument()
+  })
 })
 
 function EmptyHarness() {
