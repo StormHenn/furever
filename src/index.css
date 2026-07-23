@@ -1,1 +1,61 @@
 @import "tailwindcss";
+
+@import "@fontsource/young-serif/400.css";
+@import "@fontsource/karla/400.css";
+@import "@fontsource/karla/500.css";
+@import "@fontsource/karla/700.css";
+@import "@fontsource/karla/800.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+
+@theme {
+  --color-paper: #f6f0e3;
+  --color-paperdark: #e7e0d1;
+  --color-card: #fffdf6;
+  --color-ink: #2a2118;
+  --color-rust: #c2593c;
+  --color-rustdark: #9c4527;
+  --color-sage: #4d8a68;
+  --color-amber: #b8860b;
+  --color-nope: #b4452f;
+
+  --font-display: 'Young Serif', serif;
+  --font-body: 'Karla', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --shadow-paper: 3px 4px 0 rgba(42, 33, 24, 0.14);
+  --shadow-paperlg: 5px 7px 0 rgba(42, 33, 24, 0.13);
+
+  --animate-slide-up: slideUp 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+  --animate-pop-in: popIn 0.5s cubic-bezier(0.2, 1.4, 0.4, 1);
+  --animate-fade-in: fadeIn 0.3s ease;
+  --animate-wiggle: wiggle 0.4s ease;
+}
+
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes popIn {
+  0% { transform: scale(0.6) rotate(-8deg); opacity: 0; }
+  70% { transform: scale(1.06) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fall {
+  0% { transform: translateY(-60px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(820px) rotate(320deg); opacity: 0.5; }
+}
+@keyframes storybar { from { width: 0%; } to { width: 100%; } }
+@keyframes wiggle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+
+@layer utilities {
+  .bg-dots {
+    background-image: radial-gradient(rgba(42, 33, 24, 0.05) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-paperdark);
+}
