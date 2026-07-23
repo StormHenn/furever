@@ -2,13 +2,16 @@ import { describe, it, expect } from 'vitest'
 import { nextStory } from './story'
 
 describe('nextStory', () => {
-  it('advances the pic within a story', () => {
-    expect(nextStory({ idx: 0, pic: 0 }, 3)).toEqual({ idx: 0, pic: 1 })
+  it('advances the slide within a deck', () => {
+    expect(nextStory({ idx: 0, pic: 0 }, 4, 3)).toEqual({ idx: 0, pic: 1 })
   })
-  it('advances to the next story after the last pic', () => {
-    expect(nextStory({ idx: 0, pic: 2 }, 3)).toEqual({ idx: 1, pic: 0 })
+  it('rolls to the next agency after the last slide of a deck', () => {
+    expect(nextStory({ idx: 0, pic: 3 }, 4, 3)).toEqual({ idx: 1, pic: 0 })
   })
-  it('closes after the last pic of the last story', () => {
-    expect(nextStory({ idx: 2, pic: 2 }, 3)).toBeNull()
+  it('handles a shorter deck', () => {
+    expect(nextStory({ idx: 1, pic: 2 }, 3, 3)).toEqual({ idx: 2, pic: 0 })
+  })
+  it('closes after the last slide of the last agency', () => {
+    expect(nextStory({ idx: 2, pic: 2 }, 3, 3)).toBeNull()
   })
 })
