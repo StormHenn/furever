@@ -64,28 +64,39 @@ export interface ShelterStory {
   short: string
   mono: string                        // "HT" monogram initials
   tint: 'rust' | 'sky' | 'moss'       // per-agency badge color
-  events: AdoptionEvent[]             // ordered slides; 2 per agency
+  events: AdoptionEvent[]             // ordered slides; variable length per agency
 }
 ```
 
 The `when` and `note` fields are removed from `ShelterStory`.
 
-`src/data/stories.ts` gets rewritten so each of the three agencies has 2 slides.
-Suggested mix (final copy chosen during implementation, in the app's playful
-zine voice):
+`src/data/stories.ts` gets rewritten so each agency has its own deck of slides.
+Agencies are **not** locked to one recap + one upcoming: an agency posts as many
+statuses as it likes, freely mixing `recap` and `upcoming` in any order — like a
+feed of stories they've chosen to put up. Deck sizes therefore **vary per
+agency**, and the advance/progress logic must not assume a fixed count.
 
-- **Happy Tails Rescue** (`mono: 'HT'`, `tint: 'rust'`)
-  - upcoming flyer — Saturday adoption day, `photoId: 'haku'`
-  - recap — last month's event, `stat: '14 ADOPTED'`, `photoId: 'pretzel'`
-- **Whisker Haven** (`mono: 'WH'`, `tint: 'sky'`)
-  - upcoming flyer — kitten open house, `photoId: 'moon-cake'`
-  - recap — `stat`, `photoId: 'pickle'`
-- **Paws & Effect** (`mono: 'PE'`, `tint: 'moss'`)
-  - upcoming flyer — fee-waived fair, `photoId: 'yuki'`
-  - recap — `photoId: 'meatball'`
+Generate richer mock data — roughly 3–4 slides per agency, mixed kinds, ordered
+however reads naturally (e.g. lead with an upcoming promo, then a couple of past
+recaps to show off). Final copy is written during implementation in the app's
+playful zine voice. Suggested seed (adjust freely):
 
-Deck sizes are allowed to vary per agency (the advance logic must not assume a
-fixed count), even though the initial data uses 2 each.
+- **Happy Tails Rescue** (`mono: 'HT'`, `tint: 'rust'`) — 4 slides
+  - upcoming — Saturday adoption day, `photoId: 'haku'`
+  - recap — "14 GOOD DOGS, ALL ADOPTED", `photoId: 'pretzel'`
+  - upcoming — puppy meet-and-greet next week, `photoId: 'haku'`
+  - recap — summer fair highlight, `photoId: 'pretzel'`
+- **Whisker Haven** (`mono: 'WH'`, `tint: 'sky'`) — 3 slides
+  - upcoming — kitten open house, `photoId: 'moon-cake'`
+  - recap — "9 CATS FOUND THEIR HUMANS", `photoId: 'pickle'`
+  - recap — caturday recap, `photoId: 'miso'`
+- **Paws & Effect** (`mono: 'PE'`, `tint: 'moss'`) — 3 slides
+  - upcoming — fee-waived fair this Saturday, `photoId: 'yuki'`
+  - upcoming — mobile adoption van stop, `photoId: 'juniper'`
+  - recap — "23 ADOPTED IN ONE DAY", `photoId: 'meatball'`
+
+Exact counts and copy are illustrative — the point is variable-length, freely
+mixed decks. `photoId`s may repeat within an agency (limited pet pool).
 
 ## Components & changes
 
@@ -163,8 +174,9 @@ Update existing tests and add new ones (TDD):
   - a `recap` slide renders the stat + thanks;
   - the RSVP button does not advance the story (click doesn't change slide).
 - `lib/story` test (in the appropriate existing test file, or new): `nextStory`
-  advances within a 2-slide deck and rolls over to the next agency; returns
-  `null` at the very end. Cover decks of differing lengths.
+  advances within a multi-slide deck and rolls over to the next agency; returns
+  `null` at the very end. Cover decks of differing lengths (the app data mixes
+  3- and 4-slide agencies).
 - Reducer test: `ADVANCE_STORY` uses the current agency's slide count.
 
 ## Out of scope
