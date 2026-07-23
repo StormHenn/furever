@@ -53,6 +53,8 @@ export function StoryViewer() {
     pressStart.current = Date.now()
     startY.current = e.clientY
     moved.current = false
+    // Keep the move stream even if the finger wanders off the overlay.
+    try { e.currentTarget.setPointerCapture(e.pointerId) } catch { /* ignore */ }
     setSnapping(false)
     setPaused(true)
   }
@@ -81,6 +83,9 @@ export function StoryViewer() {
 
   const dragProgress = Math.min(1, dragY / 240)
   const overlayStyle = {
+    // The pull-down is ours to drive; without this the browser claims the
+    // vertical pan as a scroll and cancels the pointer mid-drag.
+    touchAction: 'none' as const,
     transform: `translateY(${dragY}px) scale(${(1 - dragProgress * 0.12).toFixed(3)})`,
     borderRadius: dragY > 0 ? `${Math.round(dragProgress * 28)}px` : undefined,
     transition: snapping ? 'transform 0.28s ease-out, border-radius 0.28s ease-out' : undefined,
@@ -98,7 +103,7 @@ export function StoryViewer() {
       onPointerCancel={release}
       onClick={handleClick}
     >
-      <div data-testid="story-bars" className="flex gap-[5px] px-3.5 pb-2 pt-3">
+      <div data-testid="story-bars" className="flex gap-[5px] px-3.5 pb-2 pt-[calc(env(safe-area-inset-top,0px)+12px)]">
         {story.events.map((_, p) => (
           <span
             key={p}

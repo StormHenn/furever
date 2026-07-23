@@ -120,6 +120,23 @@ describe('StoryViewer press-and-hold to pause', () => {
 })
 
 describe('StoryViewer swipe down to dismiss', () => {
+  it('claims the vertical pan so the browser cannot scroll-steal the gesture', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    // Without this the browser arbitrates a downward drag as a scroll,
+    // fires pointercancel, and the dismiss never reaches its threshold.
+    expect(screen.getByTestId('story-viewer').style.touchAction).toBe('none')
+  })
+
+  it('captures the pointer so moves keep arriving once the finger strays', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+    const capture = vi.fn()
+    overlay.setPointerCapture = capture
+
+    fireEvent.pointerDown(overlay, { clientY: 100, pointerId: 7 })
+    expect(capture).toHaveBeenCalledWith(7)
+  })
+
   it('the view follows the finger during a downward drag', () => {
     render(<AppProvider><Open /></AppProvider>)
     const overlay = screen.getByTestId('story-viewer')
