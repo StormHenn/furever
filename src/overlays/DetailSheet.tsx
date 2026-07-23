@@ -30,7 +30,7 @@ export function DetailSheet() {
   ]
 
   return (
-    <BottomSheet open={!!animal} onClose={() => dispatch({ type: 'CLOSE_DETAIL' })} height="88%">
+    <BottomSheet open onClose={() => dispatch({ type: 'CLOSE_DETAIL' })} height="88%">
       <div className="px-5 pb-6 pt-1.5">
         <div className="mt-2 flex items-baseline gap-2.5">
           <span className="font-display text-[30px]">{animal.name}</span>
@@ -102,7 +102,13 @@ export function DetailSheet() {
           WHERE TO FIND {upperName}
         </div>
         <div className="overflow-hidden rounded-2xl border-[1.5px] border-ink bg-card shadow-paper">
-          <div className="flex h-24 items-center justify-center bg-ink/[0.06]">
+          <div
+            className="flex h-24 items-center justify-center"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(-45deg, color-mix(in srgb, var(--color-ink) 6%, transparent) 0 8px, transparent 8px 16px)',
+            }}
+          >
             <span className="rounded-md border-[1.5px] border-dashed border-ink/40 bg-paper px-2.5 py-[5px] font-mono text-[10px] tracking-[0.12em] text-ink/60">
               MAP &middot; {distLabel} AWAY
             </span>

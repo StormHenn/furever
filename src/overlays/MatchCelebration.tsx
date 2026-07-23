@@ -63,7 +63,7 @@ export function MatchCelebration() {
         <button
           type="button"
           onClick={() => dispatch({ type: 'DISMISS_MATCH' })}
-          className="mt-2.5 w-full border-none bg-none font-mono text-[10.5px] tracking-[0.12em] text-ink/55 underline"
+          className="mt-2.5 w-full border-none bg-transparent font-mono text-[10.5px] tracking-[0.12em] text-ink/55 underline"
         >
           KEEP SWIPING (PLAYER)
         </button>

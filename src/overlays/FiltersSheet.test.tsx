@@ -6,6 +6,7 @@ import { FiltersSheet } from './FiltersSheet'
 
 function Open() {
   const { state, dispatch } = useApp()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { dispatch({ type: 'OPEN_FILTERS' }) }, [])
   return (<><FiltersSheet /><output>species:{state.filters.species} show:{String(state.showFilters)}</output></>)
 }

@@ -6,6 +6,7 @@ import { Profile } from './Profile'
 
 function Seed() {
   const { state, dispatch } = useApp()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { dispatch({ type: 'SWIPE', id: 'biscuit', dir: 'like' }); dispatch({ type: 'SWIPE', id: 'clementine', dir: 'nope' }) }, [])
   return (<><Profile /><output>screen:{state.screen}</output></>)
 }

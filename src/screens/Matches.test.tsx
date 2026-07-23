@@ -6,6 +6,7 @@ import { Matches } from './Matches'
 
 function Seed({ likes }: { likes: string[] }) {
   const { state, dispatch } = useApp()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { likes.forEach((id) => dispatch({ type: 'SWIPE', id, dir: 'like' })) }, [])
   return (<><Matches /><output>screen:{state.screen} chat:{state.chatId ?? '-'}</output></>)
 }

@@ -8,6 +8,7 @@ import { useAutoReply } from '../hooks/useAutoReply'
 function Harness() {
   const { dispatch } = useApp()
   useAutoReply()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { dispatch({ type: 'OPEN_CHAT', id: 'biscuit' }) }, [])
   return <Chat />
 }

@@ -6,6 +6,7 @@ import { DetailSheet } from './DetailSheet'
 
 function Open({ id }: { id: string }) {
   const { state, dispatch } = useApp()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { dispatch({ type: 'OPEN_DETAIL', id }) }, [])
   return (<><DetailSheet /><output>screen:{state.screen} detail:{state.detailId ?? '-'}</output></>)
 }

@@ -1,16 +1,37 @@
-# React + Vite
+# Furever
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A "Tinder for pet adoption" prototype — swipe through adoptable dogs and cats, match on mutual likes, and chat with an auto-replying shelter bot. **Front-end only, no backend**: all state lives in memory for the session (login, onboarding answers, swipes, matches, and chat are not persisted anywhere).
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + TypeScript
+- Tailwind CSS v4 (via `@tailwindcss/vite`)
+- Vite
+- Vitest + React Testing Library
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run dev          # start the dev server
+npm run build        # production build to dist/
+npm test             # run the test suite once
+npm run test:watch   # run tests in watch mode
+npm run lint         # oxlint
+npm run typecheck    # tsc --noEmit
+```
 
-## Expanding the Oxlint configuration
+## Where things live
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- `src/data/` — seed data: animals, quiz questions, shelter stories, confetti config.
+- `src/index.css` — design tokens (colors, fonts, etc.) declared in the Tailwind v4 `@theme` block.
+- `src/lib/` — pure logic: match scoring, filtering, swipe physics, chat auto-reply, story playback. No React, fully unit tested.
+- `src/state/` — app state: reducer, action types, selectors, and the `AppContext` provider.
+- `src/screens/` — the six top-level screens (Login, Onboarding, Discover, Matches, Chat, Profile).
+- `src/overlays/` — modal/sheet overlays (Detail sheet, Filters sheet, Story viewer, Match celebration).
+- `src/components/` — shared UI pieces (swipe card, tab bar, bottom sheet, animal photo, etc.).
+- `src/assets/pets/` — bundled pet photos used by the app.
+- `reference-project/` — the original static HTML/JS mockup this app was rebuilt from. Not part of the build.
+
+## Photo sourcing
+
+Pet photos bundled in `src/assets/pets/` were sourced from [placedog.net](https://placedog.net) and [cataas.com](https://cataas.com) for prototyping purposes only (see `scripts/fetch-pets.sh`). **Replace these with owned or properly licensed assets before shipping to production.**

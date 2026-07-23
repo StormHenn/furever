@@ -6,6 +6,7 @@ import { StoryViewer } from './StoryViewer'
 
 function Open() {
   const { state, dispatch } = useApp()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { dispatch({ type: 'OPEN_STORY', idx: 0 }) }, [])
   return (<><StoryViewer /><output>story:{state.story ? `${state.story.idx}-${state.story.pic}` : 'none'}</output></>)
 }
