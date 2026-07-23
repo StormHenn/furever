@@ -71,6 +71,14 @@ describe('reducer', () => {
     expect(s.story).toBeNull()
   })
 
+  it('ADVANCE_STORY rolls over between decks of different lengths', () => {
+    // Agency index 0 (Happy Tails) has 4 slides; index 1 (Whisker Haven) has 3.
+    // Advancing off the end of the longer deck must land on pic 0 of the next.
+    let s = reducer(initialState, { type: 'OPEN_STORY', idx: 0 })
+    for (let i = 0; i < 4; i++) s = reducer(s, { type: 'ADVANCE_STORY' })
+    expect(s.story).toEqual({ idx: 1, pic: 0 })
+  })
+
   it('NAVIGATE clears overlays', () => {
     const dirty = { ...initialState, detailId: 'haku', showFilters: true }
     const s = reducer(dirty, { type: 'NAVIGATE', screen: 'profile' })
