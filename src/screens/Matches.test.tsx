@@ -18,15 +18,15 @@ describe('Matches', () => {
   })
 
   it('lists a mutual and opens chat', () => {
-    render(<AppProvider><Seed likes={['biscuit']} /></AppProvider>)
+    render(<AppProvider><Seed likes={['haku']} /></AppProvider>)
     expect(screen.getByText('MUTUAL SPARKS ♥')).toBeInTheDocument()
     fireEvent.click(screen.getAllByText('CHAT')[0])
     expect(screen.getByText(/screen:chat/)).toBeInTheDocument()
-    expect(screen.getByText(/chat:biscuit/)).toBeInTheDocument()
+    expect(screen.getByText(/chat:haku/)).toBeInTheDocument()
   })
 
   it('lists a non-mutual like under the shortlist', () => {
-    render(<AppProvider><Seed likes={['clementine']} /></AppProvider>)
+    render(<AppProvider><Seed likes={['moon-cake']} /></AppProvider>)
     expect(screen.getByText('FAVED, AWAITING SPARKS')).toBeInTheDocument()
     expect(screen.getByText('Moon Cake')).toBeInTheDocument()
   })

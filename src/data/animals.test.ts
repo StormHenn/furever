@@ -8,9 +8,9 @@ describe('animals seed data', () => {
   })
 
   it('has exactly two mutual animals (destiny mode)', () => {
-    // reference: biscuit, pretzel, pickle flagged mutual
+    // reference: haku, pretzel, pickle flagged mutual
     expect(animals.filter((a) => a.mutual).map((a) => a.id).sort()).toEqual(
-      ['biscuit', 'pickle', 'pretzel'],
+      ['haku', 'pickle', 'pretzel'],
     )
   })
 

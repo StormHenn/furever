@@ -2,6 +2,7 @@ import { useApp } from '../state/AppContext'
 import { animals, detailCaptions } from '../data/animals'
 import { selectScore } from '../state/selectors'
 import { AnimalPhoto } from '../components/AnimalPhoto'
+import { petPhoto } from '../assets/pets'
 import { BottomSheet } from '../components/BottomSheet'
 import type { Compat } from '../types'
 
@@ -47,7 +48,7 @@ export function DetailSheet() {
         <div className="mb-4 -rotate-[0.5deg] rounded-2xl border-[1.5px] border-ink bg-card p-2.5 shadow-paper">
           <div className="mx-1 mb-2.5 mt-0.5 font-display text-[15px]">{captions[0]}</div>
           <div className="relative h-[230px]">
-            <AnimalPhoto id={animal.id} name={animal.name} shape="rounded" />
+            <AnimalPhoto src={petPhoto(animal.id, 0)} name={animal.name} shape="rounded" />
             <div className="pointer-events-none absolute -top-2 left-5 h-[19px] w-16 -rotate-[5deg] bg-paperdark/85" />
             <div className="pointer-events-none absolute bottom-2.5 right-2.5 flex h-[60px] w-[60px] rotate-[8deg] flex-col items-center justify-center rounded-full border-2 border-dashed border-rust bg-paper">
               <span className="font-display text-[17px] text-rust">{score}</span>
@@ -70,7 +71,7 @@ export function DetailSheet() {
         <div className="mt-[18px] rotate-[0.6deg] rounded-2xl border-[1.5px] border-ink bg-card p-2.5 shadow-paper">
           <div className="mx-1 mb-2.5 mt-0.5 font-display text-[15px]">{captions[1]}</div>
           <div className="relative h-[230px]">
-            <AnimalPhoto id={animal.id} name={animal.name} shape="rounded" />
+            <AnimalPhoto src={petPhoto(animal.id, 1)} name={animal.name} shape="rounded" />
             <div className="pointer-events-none absolute -top-2 right-5 h-[19px] w-16 rotate-[4deg] bg-paperdark/85" />
           </div>
         </div>
@@ -93,7 +94,7 @@ export function DetailSheet() {
         <div className="mt-[18px] -rotate-[0.4deg] rounded-2xl border-[1.5px] border-ink bg-card p-2.5 shadow-paper">
           <div className="mx-1 mb-2.5 mt-0.5 font-display text-[15px]">{captions[2]}</div>
           <div className="relative h-[230px]">
-            <AnimalPhoto id={animal.id} name={animal.name} shape="rounded" />
+            <AnimalPhoto src={petPhoto(animal.id, 2)} name={animal.name} shape="rounded" />
             <div className="pointer-events-none absolute -top-2 left-5 h-[19px] w-16 -rotate-[4deg] bg-paperdark/85" />
           </div>
         </div>

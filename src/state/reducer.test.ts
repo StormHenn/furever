@@ -23,33 +23,33 @@ describe('reducer', () => {
   })
 
   it('SWIPE records direction', () => {
-    const s = reducer(initialState, { type: 'SWIPE', id: 'clementine', dir: 'nope' })
-    expect(s.swiped.clementine).toBe('nope')
+    const s = reducer(initialState, { type: 'SWIPE', id: 'moon-cake', dir: 'nope' })
+    expect(s.swiped['moon-cake']).toBe('nope')
   })
 
   it('liking a mutual animal sets matchId (destiny mode)', () => {
-    const s = reducer(initialState, { type: 'SWIPE', id: 'biscuit', dir: 'like' })
-    expect(s.matchId).toBe('biscuit')
+    const s = reducer(initialState, { type: 'SWIPE', id: 'haku', dir: 'like' })
+    expect(s.matchId).toBe('haku')
   })
 
   it('liking a non-mutual animal does not set matchId (destiny mode)', () => {
-    const s = reducer(initialState, { type: 'SWIPE', id: 'clementine', dir: 'like' })
+    const s = reducer(initialState, { type: 'SWIPE', id: 'moon-cake', dir: 'like' })
     expect(s.matchId).toBeNull()
   })
 
   it('OPEN_CHAT seeds an initial thread once and switches screen', () => {
-    const s = reducer(initialState, { type: 'OPEN_CHAT', id: 'biscuit' })
+    const s = reducer(initialState, { type: 'OPEN_CHAT', id: 'haku' })
     expect(s.screen).toBe('chat')
-    expect(s.chatId).toBe('biscuit')
-    expect(s.threads.biscuit).toHaveLength(1)
-    const again = reducer(s, { type: 'OPEN_CHAT', id: 'biscuit' })
-    expect(again.threads.biscuit).toHaveLength(1) // not re-seeded
+    expect(s.chatId).toBe('haku')
+    expect(s.threads.haku).toHaveLength(1)
+    const again = reducer(s, { type: 'OPEN_CHAT', id: 'haku' })
+    expect(again.threads.haku).toHaveLength(1) // not re-seeded
   })
 
   it('SEND_MESSAGE appends a "me" message and clears the draft', () => {
-    let s = reducer(initialState, { type: 'OPEN_CHAT', id: 'biscuit' })
+    let s = reducer(initialState, { type: 'OPEN_CHAT', id: 'haku' })
     s = reducer({ ...s, chatDraft: 'hi' }, { type: 'SEND_MESSAGE', text: 'hi' })
-    expect(s.threads.biscuit.at(-1)).toEqual({ from: 'me', text: 'hi' })
+    expect(s.threads.haku.at(-1)).toEqual({ from: 'me', text: 'hi' })
     expect(s.chatDraft).toBe('')
   })
 
@@ -69,7 +69,7 @@ describe('reducer', () => {
   })
 
   it('NAVIGATE clears overlays', () => {
-    const dirty = { ...initialState, detailId: 'biscuit', showFilters: true }
+    const dirty = { ...initialState, detailId: 'haku', showFilters: true }
     const s = reducer(dirty, { type: 'NAVIGATE', screen: 'profile' })
     expect(s.screen).toBe('profile')
     expect(s.detailId).toBeNull()

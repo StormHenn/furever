@@ -7,7 +7,7 @@ import { MatchCelebration } from './MatchCelebration'
 function Open() {
   const { state, dispatch } = useApp()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { dispatch({ type: 'SWIPE', id: 'biscuit', dir: 'like' }) }, [])
+  useEffect(() => { dispatch({ type: 'SWIPE', id: 'haku', dir: 'like' }) }, [])
   return (<><MatchCelebration /><output>screen:{state.screen} match:{state.matchId ?? '-'}</output></>)
 }
 

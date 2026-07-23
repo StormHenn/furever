@@ -4,7 +4,7 @@ import { SwipeCard } from './SwipeCard'
 import type { Animal } from '../types'
 
 const animal = {
-  id: 'biscuit', name: 'Haku', species: 'dog', breed: 'Australian Shepherd',
+  id: 'haku', name: 'Haku', species: 'dog', breed: 'Australian Shepherd',
   age: 2, dist: 1.2, shelter: 'x', fee: 'y', score: 88, mutual: true,
   tags: ['food-motivated'], kids: 'YES', dogs: 'YES', cats: 'ASK', bio: 'z',
 } as Animal

@@ -7,12 +7,12 @@ describe('selectors', () => {
     expect(selectDeck(initialState).length).toBe(8)
   })
   it('selectLiked reflects liked swipes', () => {
-    const s = { ...initialState, swiped: { biscuit: 'like' as const, clementine: 'nope' as const } }
-    expect(selectLiked(s).map((a) => a.id)).toEqual(['biscuit'])
+    const s = { ...initialState, swiped: { haku: 'like' as const, 'moon-cake': 'nope' as const } }
+    expect(selectLiked(s).map((a) => a.id)).toEqual(['haku'])
   })
   it('selectMutuals returns eligible likes (destiny)', () => {
-    const s = { ...initialState, swiped: { biscuit: 'like' as const, clementine: 'like' as const } }
-    expect(selectMutuals(s).map((a) => a.id)).toEqual(['biscuit'])
+    const s = { ...initialState, swiped: { haku: 'like' as const, 'moon-cake': 'like' as const } }
+    expect(selectMutuals(s).map((a) => a.id)).toEqual(['haku'])
   })
   it('selectPrefChips maps stored prefs to labels', () => {
     const s = { ...initialState, prefs: { species: 'dog', energy: 'chill' } }

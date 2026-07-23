@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { petPhoto } from '../assets/pets'
 
 interface Props {
@@ -19,7 +20,8 @@ export function AnimalPhoto({ id, src, name, shape, radius = 10, className = '' 
       <img
         src={resolved}
         alt={name}
-        style={style}
+        draggable={false}
+        style={{ ...style, WebkitUserDrag: 'none' } as CSSProperties}
         className={`h-full w-full object-cover ${className}`}
       />
     )

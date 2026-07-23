@@ -9,7 +9,7 @@ function Harness() {
   const { dispatch } = useApp()
   useAutoReply()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { dispatch({ type: 'OPEN_CHAT', id: 'biscuit' }) }, [])
+  useEffect(() => { dispatch({ type: 'OPEN_CHAT', id: 'haku' }) }, [])
   return <Chat />
 }
 

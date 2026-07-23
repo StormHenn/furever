@@ -13,14 +13,14 @@ function Open({ id }: { id: string }) {
 
 describe('DetailSheet', () => {
   it('renders the animal bio and compat report', () => {
-    render(<AppProvider><Open id="biscuit" /></AppProvider>)
+    render(<AppProvider><Open id="haku" /></AppProvider>)
     expect(screen.getByText(/every stranger is a friend/)).toBeInTheDocument()
     expect(screen.getByText('THE ROOMMATE REPORT')).toBeInTheDocument()
     expect(screen.getByText('KIDS')).toBeInTheDocument()
   })
 
   it('the DMs CTA opens chat', () => {
-    render(<AppProvider><Open id="biscuit" /></AppProvider>)
+    render(<AppProvider><Open id="haku" /></AppProvider>)
     fireEvent.click(screen.getByText(/SLIDE INTO HAKU'S DMS/))
     expect(screen.getByText(/screen:chat/)).toBeInTheDocument()
   })

@@ -12,7 +12,7 @@ function Harness() {
 describe('Discover', () => {
   it('renders the deck with the top card visible', () => {
     render(<AppProvider><Discover /></AppProvider>)
-    // first deck animal is "Haku" (biscuit)
+    // first deck animal is "Haku" (haku)
     expect(screen.getAllByText('Haku').length).toBeGreaterThan(0)
   })
 
@@ -33,7 +33,7 @@ describe('Discover', () => {
   it('the info button opens detail for the top card', () => {
     render(<AppProvider><Harness /></AppProvider>)
     fireEvent.click(screen.getByLabelText('Details'))
-    expect(screen.getByText(/detail:biscuit/)).toBeInTheDocument()
+    expect(screen.getByText(/detail:haku/)).toBeInTheDocument()
   })
 
   it('shows the empty state after every animal is swiped', () => {
