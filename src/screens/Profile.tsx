@@ -1,10 +1,26 @@
+import type { ChangeEvent } from 'react'
 import { useApp } from '../state/AppContext'
 import { AnimalPhoto } from '../components/AnimalPhoto'
 import { tiltDeg } from '../components/tilt'
+import { fileToAvatarDataUrl, saveAvatar } from '../lib/avatar'
 import { selectLiked, selectMutuals, selectPrefChips } from '../state/selectors'
 
 export function Profile() {
   const { state, dispatch } = useApp()
+
+  async function onPickAvatar(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = '' // let the same file be re-picked later
+    if (!file) return
+    try {
+      const url = await fileToAvatarDataUrl(file)
+      saveAvatar(url)
+      dispatch({ type: 'SET_AVATAR', value: url })
+    } catch {
+      // unreadable / unsupported image — leave the current photo untouched
+    }
+  }
+
   const met = Object.keys(state.swiped).length
   const smitten = selectLiked(state).length
   const mutuals = selectMutuals(state).length
@@ -14,12 +30,17 @@ export function Profile() {
   return (
     <div className="min-h-0 flex-1 overflow-y-auto px-[22px] py-6 animate-fade-in">
       <div className="flex items-center gap-4">
-        <span
+        <label
           style={{ transform: tiltDeg(-3) }}
-          className="block h-[88px] w-[88px] flex-none rounded-full border-2 border-dashed border-rust p-1"
+          aria-label="Change your profile photo"
+          className="relative block h-[88px] w-[88px] flex-none cursor-pointer rounded-full border-2 border-dashed border-rust p-1"
         >
-          <AnimalPhoto name="You" shape="circle" />
-        </span>
+          <AnimalPhoto name="You" src={state.avatar ?? undefined} shape="circle" />
+          <span className="absolute -bottom-0.5 -right-0.5 flex h-6 w-6 items-center justify-center rounded-full border-[1.5px] border-ink bg-paper text-[11px] shadow-paper">
+            📷
+          </span>
+          <input type="file" accept="image/*" className="hidden" onChange={onPickAvatar} />
+        </label>
         <span className="flex flex-col gap-[3px]">
           <span className="font-display text-2xl">You</span>
           <span className="font-mono text-[9px] tracking-[0.16em] text-ink/55">CERTIFIED FUTURE PET PARENT</span>

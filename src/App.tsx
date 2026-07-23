@@ -12,7 +12,6 @@ import { StoryViewer } from './overlays/StoryViewer'
 import { MatchCelebration } from './overlays/MatchCelebration'
 import { useApp } from './state/AppContext'
 import { useAutoReply } from './hooks/useAutoReply'
-import { useStoryPlayer } from './hooks/useStoryPlayer'
 
 const SCREENS = {
   login: Login,
@@ -26,7 +25,6 @@ const SCREENS = {
 export default function App() {
   const { state } = useApp()
   useAutoReply()
-  useStoryPlayer()
   const Screen = SCREENS[state.screen]
   const showTabs = state.screen !== 'login' && state.screen !== 'onboarding' && state.screen !== 'chat'
 

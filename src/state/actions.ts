@@ -25,3 +25,4 @@ export type Action =
   | { type: 'SEND_MESSAGE'; text: string }
   | { type: 'RECEIVE_MESSAGE'; id: string; text: string }
   | { type: 'DISMISS_MATCH' }
+  | { type: 'SET_AVATAR'; value: string | null }

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useDragScroll } from '../hooks/useDragScroll'
 
 interface Props {
   open: boolean
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function BottomSheet({ open, onClose, height, children }: Props) {
+  const { ref, ...dragScroll } = useDragScroll<HTMLDivElement>()
   if (!open) return null
   return (
     <div className="absolute inset-0 z-40">
@@ -32,7 +34,13 @@ export function BottomSheet({ open, onClose, height, children }: Props) {
           >
             ✕
           </button>
-          <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
+          <div
+            ref={ref}
+            {...dragScroll}
+            className="min-h-0 flex-1 select-none overflow-y-auto"
+          >
+            {children}
+          </div>
         </div>
       </div>
     </div>

@@ -26,7 +26,7 @@ export const shelterStories: ShelterStory[] = [
       },
       {
         kind: 'upcoming',
-        photoId: 'haku',
+        photoId: 'yuki',
         title: 'PUPPY MEET & GREET',
         day: 'THU · SEP 19',
         time: '4 – 7PM',
@@ -35,7 +35,7 @@ export const shelterStories: ShelterStory[] = [
       },
       {
         kind: 'recap',
-        photoId: 'pretzel',
+        photoId: 'meatball',
         title: 'SUMMER FAIR',
         stat: '31 TAILS REHOMED',
         crowd: 'our biggest turnout yet',
@@ -52,7 +52,7 @@ export const shelterStories: ShelterStory[] = [
     events: [
       {
         kind: 'upcoming',
-        photoId: 'moon-cake',
+        photoId: 'juniper',
         title: 'KITTEN OPEN HOUSE',
         day: 'SUN · SEP 15',
         time: '11AM – 3PM',

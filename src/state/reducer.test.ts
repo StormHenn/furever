@@ -22,6 +22,16 @@ describe('reducer', () => {
     expect(s.obStep).toBe(0)
   })
 
+  it('SET_AVATAR stores the chosen photo', () => {
+    const s = reducer(initialState, { type: 'SET_AVATAR', value: 'data:image/jpeg;base64,abc' })
+    expect(s.avatar).toBe('data:image/jpeg;base64,abc')
+  })
+
+  it('LOGOUT keeps the avatar (it is device-local, not a credential)', () => {
+    const s = reducer({ ...initialState, avatar: 'data:image/jpeg;base64,abc' }, { type: 'LOGOUT' })
+    expect(s.avatar).toBe('data:image/jpeg;base64,abc')
+  })
+
   it('SWIPE records direction', () => {
     const s = reducer(initialState, { type: 'SWIPE', id: 'moon-cake', dir: 'nope' })
     expect(s.swiped['moon-cake']).toBe('nope')

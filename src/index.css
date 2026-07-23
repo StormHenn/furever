@@ -59,3 +59,14 @@ body {
   font-family: var(--font-body);
   background: var(--color-paperdark);
 }
+
+/* Hide scrollbars everywhere — scrolling still works by thumb, drag, or wheel. */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge */
+}
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* WebKit / Chrome / Safari */
+}

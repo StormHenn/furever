@@ -6,6 +6,7 @@ import { MATCH_MODE, START_SCREEN } from '../config'
 import { isMatchEligible } from '../lib/matching'
 import { initialThread } from '../lib/chat'
 import { nextStory } from '../lib/story'
+import { loadAvatar } from '../lib/avatar'
 
 export interface AppState {
   screen: Screen
@@ -22,6 +23,7 @@ export interface AppState {
   chatId: string | null
   threads: Record<string, Message[]>
   chatDraft: string
+  avatar: string | null
 }
 
 const byId = (id: string) => animals.find((a) => a.id === id)
@@ -41,6 +43,7 @@ export const initialState: AppState = {
   chatId: null,
   threads: {},
   chatDraft: '',
+  avatar: loadAvatar(),
 }
 
 export function reducer(state: AppState, action: Action): AppState {
@@ -129,6 +132,8 @@ export function reducer(state: AppState, action: Action): AppState {
       }
     case 'DISMISS_MATCH':
       return { ...state, matchId: null }
+    case 'SET_AVATAR':
+      return { ...state, avatar: action.value }
     default:
       return state
   }

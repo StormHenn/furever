@@ -42,7 +42,7 @@ export function MatchCelebration() {
         <div className="my-5 flex items-center justify-center gap-0">
           <span className="-rotate-6 rounded-full border-2 border-dashed border-rust bg-paper p-[3px]">
             <span className="block h-[84px] w-[84px]">
-              <AnimalPhoto name="You" shape="circle" />
+              <AnimalPhoto name="You" src={state.avatar ?? undefined} shape="circle" />
             </span>
           </span>
           <span className="relative z-[2] mx-[-6px] font-display text-2xl text-rust">♥</span>

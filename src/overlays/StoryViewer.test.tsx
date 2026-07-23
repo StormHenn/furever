@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, it, expect, vi, afterEach } from 'vitest'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { useEffect } from 'react'
 import { AppProvider, useApp } from '../state/AppContext'
 import { StoryViewer } from './StoryViewer'
@@ -50,5 +50,125 @@ describe('StoryViewer', () => {
     render(<AppProvider><Open /></AppProvider>)
     fireEvent.click(screen.getByLabelText('Close story'))
     expect(screen.getByText('story:none')).toBeInTheDocument()
+  })
+})
+
+describe('StoryViewer press-and-hold to pause', () => {
+  afterEach(() => vi.useRealTimers())
+
+  it('holding pauses the auto-advance timer', () => {
+    vi.useFakeTimers()
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    act(() => { fireEvent.pointerDown(overlay) })
+    act(() => { vi.advanceTimersByTime(6000) })
+    // Held down: the story stays put past its normal 6s advance.
+    expect(screen.getByText('story:0-0')).toBeInTheDocument()
+  })
+
+  it('releasing resumes the countdown from where it paused', () => {
+    vi.useFakeTimers()
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    act(() => { vi.advanceTimersByTime(4000) }) // 4s elapsed, 2s remaining
+    act(() => { fireEvent.pointerDown(overlay) }) // pause, bank 2s
+    act(() => { vi.advanceTimersByTime(10000) }) // paused: nothing moves
+    expect(screen.getByText('story:0-0')).toBeInTheDocument()
+
+    act(() => { fireEvent.pointerUp(overlay) }) // resume with 2s left
+    act(() => { vi.advanceTimersByTime(1999) })
+    expect(screen.getByText('story:0-0')).toBeInTheDocument()
+    act(() => { vi.advanceTimersByTime(1) })
+    expect(screen.getByText('story:0-1')).toBeInTheDocument()
+  })
+
+  it('resumes when the pointer leaves while still held', () => {
+    vi.useFakeTimers()
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    act(() => { fireEvent.pointerDown(overlay) })
+    act(() => { fireEvent.pointerLeave(overlay) })
+    act(() => { vi.advanceTimersByTime(6000) })
+    expect(screen.getByText('story:0-1')).toBeInTheDocument()
+  })
+
+  it('a quick tap still advances the story', () => {
+    vi.useFakeTimers()
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    act(() => { fireEvent.pointerDown(overlay) })
+    act(() => { fireEvent.pointerUp(overlay) })
+    act(() => { fireEvent.click(overlay) })
+    expect(screen.getByText('story:0-1')).toBeInTheDocument()
+  })
+
+  it('releasing after a long hold does not advance the story', () => {
+    vi.useFakeTimers()
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    act(() => { fireEvent.pointerDown(overlay) })
+    act(() => { vi.advanceTimersByTime(500) }) // held well past the tap threshold
+    act(() => { fireEvent.pointerUp(overlay) })
+    act(() => { fireEvent.click(overlay) })
+    expect(screen.getByText('story:0-0')).toBeInTheDocument()
+  })
+})
+
+describe('StoryViewer swipe down to dismiss', () => {
+  it('the view follows the finger during a downward drag', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    fireEvent.pointerDown(overlay, { clientY: 100 })
+    fireEvent.pointerMove(overlay, { clientY: 180 }) // 80px down
+    expect(overlay.style.transform).toContain('translateY(80px)')
+  })
+
+  it('releasing past the threshold closes the story', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    fireEvent.pointerDown(overlay, { clientY: 100 })
+    fireEvent.pointerMove(overlay, { clientY: 220 }) // dragged 120px down
+    fireEvent.pointerUp(overlay)
+    expect(screen.getByText('story:none')).toBeInTheDocument()
+  })
+
+  it('a drag released under the threshold snaps back and stays open', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    fireEvent.pointerDown(overlay, { clientY: 100 })
+    fireEvent.pointerMove(overlay, { clientY: 140 }) // 40px < threshold
+    fireEvent.pointerUp(overlay)
+    expect(screen.getByText('story:0-0')).toBeInTheDocument()
+    expect(overlay.style.transform).toContain('translateY(0px)')
+  })
+
+  it('swiping up does not move or close the story', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    fireEvent.pointerDown(overlay, { clientY: 200 })
+    fireEvent.pointerMove(overlay, { clientY: 60 }) // dragged up
+    expect(overlay.style.transform).toContain('translateY(0px)')
+    fireEvent.pointerUp(overlay)
+    expect(screen.getByText('story:0-0')).toBeInTheDocument()
+  })
+
+  it('a drag does not also register as a tap-advance', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    fireEvent.pointerDown(overlay, { clientY: 100 })
+    fireEvent.pointerMove(overlay, { clientY: 130 }) // 30px drag, under threshold
+    fireEvent.pointerUp(overlay)
+    fireEvent.click(overlay)
+    expect(screen.getByText('story:0-0')).toBeInTheDocument()
   })
 })

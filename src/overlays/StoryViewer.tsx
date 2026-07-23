@@ -1,20 +1,102 @@
+import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { useApp } from '../state/AppContext'
 import { shelterStories } from '../data/stories'
 import { AnimalPhoto } from '../components/AnimalPhoto'
 
+const SLIDE_MS = 6000
+// A press held longer than this is a pause, not a tap that advances the story.
+const HOLD_MS = 200
+// A downward drag past this many pixels dismisses the story.
+const SWIPE_CLOSE_PX = 60
+
 export function StoryViewer() {
   const { state, dispatch } = useApp()
+  const [paused, setPaused] = useState(false)
+  const [dragY, setDragY] = useState(0)
+  const [snapping, setSnapping] = useState(false)
 
-  if (!state.story) return null
+  const open = state.story
+  const key = open ? `${open.idx}-${open.pic}` : ''
+  const remainingRef = useRef(SLIDE_MS)
+  const pressStart = useRef(0)
+  const startY = useRef(0)
+  const moved = useRef(false)
 
-  const { idx, pic } = state.story
-  const story = shelterStories[idx]
+  // Give each slide a fresh countdown (but leave it alone on pause/resume),
+  // and clear any drag when the story changes or closes.
+  useEffect(() => {
+    remainingRef.current = SLIDE_MS
+    setPaused(false)
+    setDragY(0)
+    setSnapping(false)
+  }, [key])
+
+  // Auto-advance every 6s, pausable. Pausing banks the elapsed time so the
+  // next resume continues the countdown from where it left off.
+  useEffect(() => {
+    if (!open || paused) return
+    const start = Date.now()
+    const timer = window.setTimeout(() => dispatch({ type: 'ADVANCE_STORY' }), remainingRef.current)
+    return () => {
+      window.clearTimeout(timer)
+      remainingRef.current = Math.max(0, remainingRef.current - (Date.now() - start))
+    }
+  }, [open, paused, key, dispatch])
+
+  if (!open) return null
+
+  const story = shelterStories[open.idx]
+  const pic = open.pic
   const slide = story.events[pic]
+
+  const hold = (e: PointerEvent) => {
+    pressStart.current = Date.now()
+    startY.current = e.clientY
+    moved.current = false
+    setSnapping(false)
+    setPaused(true)
+  }
+  const drag = (e: PointerEvent) => {
+    if (!paused) return
+    // Follow the finger downward only; ignore upward pull.
+    const dy = Math.max(0, e.clientY - startY.current)
+    if (dy > 8) moved.current = true
+    setDragY(dy)
+  }
+  const release = () => {
+    // Pulled down far enough: dismiss. Otherwise ease back into place.
+    if (dragY > SWIPE_CLOSE_PX) {
+      dispatch({ type: 'CLOSE_STORY' })
+      return
+    }
+    setSnapping(true)
+    setDragY(0)
+    setPaused(false)
+  }
+  const handleClick = () => {
+    // A drag or a held press only pauses; a quick, still tap advances.
+    if (moved.current || Date.now() - pressStart.current > HOLD_MS) return
+    dispatch({ type: 'ADVANCE_STORY' })
+  }
+
+  const dragProgress = Math.min(1, dragY / 240)
+  const overlayStyle = {
+    transform: `translateY(${dragY}px) scale(${(1 - dragProgress * 0.12).toFixed(3)})`,
+    borderRadius: dragY > 0 ? `${Math.round(dragProgress * 28)}px` : undefined,
+    transition: snapping ? 'transform 0.28s ease-out, border-radius 0.28s ease-out' : undefined,
+  }
 
   return (
     <div
-      className="absolute inset-0 z-[60] flex animate-fade-in cursor-pointer flex-col bg-[#1c1712]"
-      onClick={() => dispatch({ type: 'ADVANCE_STORY' })}
+      data-testid="story-viewer"
+      className="absolute inset-0 z-[60] flex animate-fade-in cursor-pointer select-none flex-col overflow-hidden bg-[#1c1712]"
+      style={overlayStyle}
+      onPointerDown={hold}
+      onPointerMove={drag}
+      onPointerUp={release}
+      onPointerLeave={release}
+      onPointerCancel={release}
+      onClick={handleClick}
     >
       <div data-testid="story-bars" className="flex gap-[5px] px-3.5 pb-2 pt-3">
         {story.events.map((_, p) => (
@@ -27,6 +109,7 @@ export function StoryViewer() {
               style={{
                 width: p < pic ? '100%' : '0%',
                 animation: p === pic ? 'storybar 6s linear forwards' : undefined,
+                animationPlayState: p === pic && paused ? 'paused' : undefined,
               }}
             />
           </span>
