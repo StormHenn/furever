@@ -30,7 +30,7 @@ export function MatchCelebration() {
         <div className="font-mono text-[9px] font-semibold tracking-[0.3em] text-rust">
           STOP THE PRESSES
         </div>
-        <div className="my-2.5 text-[33px] leading-[1.1] font-display text-ink">
+        <div className="my-2.5 text-[33px] leading-[1.1] font-display text-ink [text-wrap:pretty]">
           A pawfect match!
         </div>
         <div className="text-[13.5px] leading-[1.5] text-ink/65">

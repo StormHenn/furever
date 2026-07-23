@@ -25,7 +25,7 @@ export function StoryViewer() {
             <span
               className="block h-full rounded-full bg-paper"
               style={{
-                width: p < pic ? '100%' : p === pic ? '0%' : '0%',
+                width: p < pic ? '100%' : '0%',
                 animation: p === pic ? 'storybar 6s linear forwards' : undefined,
               }}
             />

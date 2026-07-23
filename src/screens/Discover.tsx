@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { useApp } from '../state/AppContext'
 import { animals } from '../data/animals'
 import { shelterStories } from '../data/stories'
@@ -12,11 +13,15 @@ export function Discover() {
   const deck = selectDeck(state)
   const topId = selectTopId(state)
   const count = activeFilterCount(state.filters)
+  const topCardRef = useRef<{ fly: (dir: SwipeDir) => void }>(null)
   const positionOf = (id: string) => {
     const i = deck.findIndex((a) => a.id === id)
     return i < 0 || i > 2 ? -1 : i
   }
-  const swipeTop = (dir: SwipeDir) => { if (topId) dispatch({ type: 'SWIPE', id: topId, dir }) }
+  const swipeTop = (dir: SwipeDir) => {
+    if (topCardRef.current) topCardRef.current.fly(dir)
+    else if (topId) dispatch({ type: 'SWIPE', id: topId, dir })
+  }
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -45,16 +50,20 @@ export function Discover() {
       </div>
 
       <div className="relative mx-5 mb-10 mt-2 min-h-0 flex-1">
-        {animals.map((a) => (
-          <SwipeCard
-            key={a.id}
-            animal={a}
-            score={selectScore(state, a)}
-            position={positionOf(a.id)}
-            onCommit={(dir) => dispatch({ type: 'SWIPE', id: a.id, dir })}
-            onOpenDetail={() => dispatch({ type: 'OPEN_DETAIL', id: a.id })}
-          />
-        ))}
+        {animals.map((a) => {
+          const position = positionOf(a.id)
+          return (
+            <SwipeCard
+              key={a.id}
+              ref={position === 0 ? topCardRef : undefined}
+              animal={a}
+              score={selectScore(state, a)}
+              position={position}
+              onCommit={(dir) => dispatch({ type: 'SWIPE', id: a.id, dir })}
+              onOpenDetail={() => dispatch({ type: 'OPEN_DETAIL', id: a.id })}
+            />
+          )
+        })}
         {deck.length === 0 && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3.5 px-[30px] text-center">
             <div className="flex h-[74px] w-[74px] -rotate-6 items-center justify-center rounded-full border-2 border-dashed border-ink/40 font-display text-[26px] text-ink/40">?</div>

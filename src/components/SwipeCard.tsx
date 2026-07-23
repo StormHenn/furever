@@ -1,3 +1,4 @@
+import { useImperativeHandle } from 'react'
 import type { Animal } from '../types'
 import { AnimalPhoto } from './AnimalPhoto'
 import { Chip } from './Chip'
@@ -12,6 +13,7 @@ interface Props {
   position: number // 0 top, 1, 2, -1 hidden
   onCommit: (dir: SwipeDir) => void
   onOpenDetail: () => void
+  ref?: React.Ref<{ fly: (dir: SwipeDir) => void }>
 }
 
 const posTransform = (p: number): string => {
@@ -21,9 +23,10 @@ const posTransform = (p: number): string => {
   return 'translateY(26px) scale(.92)'
 }
 
-export function SwipeCard({ animal, score, position, onCommit, onOpenDetail }: Props) {
+export function SwipeCard({ animal, score, position, onCommit, onOpenDetail, ref: handleRef }: Props) {
   const isTop = position === 0
-  const { ref, handlers, wasDragged } = useSwipe({ enabled: isTop, onCommit })
+  const { ref, handlers, wasDragged, flyProgrammatic } = useSwipe({ enabled: isTop, onCommit })
+  useImperativeHandle(handleRef, () => ({ fly: (dir) => flyProgrammatic(dir) }))
   if (position < 0) return null
 
   const zClass = position === 0 ? 'z-30' : position === 1 ? 'z-20' : 'z-10'

@@ -1,9 +1,10 @@
+import type { ChangeEvent } from 'react'
 import { useApp } from '../state/AppContext'
 
 export function Login() {
   const { state, dispatch } = useApp()
   const register = state.loginMode === 'register'
-  const field = (f: 'name' | 'email' | 'pass') => (e: React.ChangeEvent<HTMLInputElement>) =>
+  const field = (f: 'name' | 'email' | 'pass') => (e: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: 'SET_LOGIN_FIELD', field: f, value: e.target.value })
   const inputCls =
     'rounded-[14px] border-[1.5px] border-ink bg-card px-4 py-[15px] font-body text-[14.5px] text-ink shadow-paper outline-none focus:border-rust'
