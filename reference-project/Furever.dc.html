@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&amp;family=Karla:wght@400;500;700;800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#e7e0d1;display:flex;justify-content:center;align-items:flex-start;padding:28px 0;font-family:'Karla',sans-serif}
+a{color:#c2593c}a:hover{color:#9c4527}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes popIn{0%{transform:scale(.6) rotate(-8deg);opacity:0}70%{transform:scale(1.06) rotate(2deg);opacity:1}100%{transform:scale(1) rotate(-2deg);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fall{0%{transform:translateY(-60px) rotate(0deg);opacity:1}100%{transform:translateY(820px) rotate(320deg);opacity:.5}}
+@keyframes storybar{from{width:0%}to{width:100%}}
+@keyframes wiggle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+</style>
+</helmet>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="440px,900px">
+<div style="position:relative;height:100%;display:flex;flex-direction:column;background:#f6f0e3;background-image:radial-gradient(rgba(42,33,24,.05) 1px, transparent 1px);background-size:14px 14px;color:#2a2118;font-family:'Karla',sans-serif;overflow:hidden;padding-top:58px;box-sizing:border-box">
+
+<sc-if value="{{isLogin}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Login" style="flex:1;display:flex;flex-direction:column;padding:30px 26px 40px;animation:fadeIn .3s">
+  <div style="display:flex;justify-content:center;margin-top:10px">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.22em;font-weight:600;border:1.5px dashed #c2593c;color:#c2593c;padding:4px 12px;border-radius:999px;transform:rotate(-2deg)">EST. RIGHT MEOW</span>
+  </div>
+  <div style="text-align:center;margin:26px 0 6px">
+    <div style="font-family:'Young Serif',serif;font-size:46px;transform:rotate(-1.5deg)">furever<span style="color:#c2593c">.</span></div>
+    <div style="font-size:14.5px;color:rgba(42,33,24,.65);margin-top:8px">{{loginTagline}}</div>
+  </div>
+  <div style="display:flex;justify-content:center;gap:0;margin:24px 0 20px">
+    <button onClick="{{pickSignin}}" style="{{signinTabStyle}}">SIGN IN</button>
+    <button onClick="{{pickRegister}}" style="{{registerTabStyle}}">REGISTER</button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <sc-if value="{{isRegisterMode}}" hint-placeholder-val="{{ false }}">
+      <input value="{{loginName}}" onChange="{{nameChange}}" placeholder="Your name (the pets will ask)" style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;padding:15px 16px;font-family:'Karla',sans-serif;font-size:14.5px;color:#2a2118;box-shadow:3px 4px 0 rgba(42,33,24,.14);outline:none" style-focus="border-color:#c2593c"></input>
+    </sc-if>
+    <input value="{{loginEmail}}" onChange="{{emailChange}}" placeholder="Email" style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;padding:15px 16px;font-family:'Karla',sans-serif;font-size:14.5px;color:#2a2118;box-shadow:3px 4px 0 rgba(42,33,24,.14);outline:none" style-focus="border-color:#c2593c"></input>
+    <input value="{{loginPass}}" onChange="{{passChange}}" type="password" placeholder="Password (any old thing works)" style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;padding:15px 16px;font-family:'Karla',sans-serif;font-size:14.5px;color:#2a2118;box-shadow:3px 4px 0 rgba(42,33,24,.14);outline:none" style-focus="border-color:#c2593c"></input>
+    <button onClick="{{submitLogin}}" style="margin-top:6px;background:#c2593c;color:#f6f0e3;border:1.5px solid #2a2118;border-radius:14px;padding:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;font-weight:600;cursor:pointer;box-shadow:3px 4px 0 rgba(42,33,24,.25);transition:transform .12s" style-hover="transform:translateY(-2px) rotate(-.4deg)" style-active="transform:scale(.97)">{{loginCta}}</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin:22px 0 14px">
+    <span style="flex:1;border-top:1.5px dashed rgba(42,33,24,.3)"></span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:rgba(42,33,24,.5)">OR</span>
+    <span style="flex:1;border-top:1.5px dashed rgba(42,33,24,.3)"></span>
+  </div>
+  <button onClick="{{submitLogin}}" style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;padding:14px;font-family:'Karla',sans-serif;font-size:14px;font-weight:700;color:#2a2118;cursor:pointer;box-shadow:3px 4px 0 rgba(42,33,24,.14);transition:transform .12s" style-hover="transform:translateY(-2px)" style-active="transform:scale(.97)">Continue as a guest with treats</button>
+  <div style="margin-top:auto;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:rgba(42,33,24,.45);line-height:1.7">NO REAL ACCOUNTS. NO SPAM.<br/>JUST FLOOFS.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isOnboarding}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Onboarding quiz" style="flex:1;display:flex;flex-direction:column;padding:26px 24px 34px;animation:fadeIn .3s">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.22em;font-weight:600">FUREVER · VIBE CHECK</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;border:1.5px dashed #c2593c;color:#c2593c;padding:3px 8px;border-radius:999px;transform:rotate(3deg)">{{obProgress}}</div>
+  </div>
+  <h1 style="font-family:'Young Serif',serif;font-size:32px;line-height:1.12;margin:34px 0 10px;text-wrap:pretty">{{obTitle}}</h1>
+  <p style="margin:0 0 26px;font-size:14.5px;color:rgba(42,33,24,.65);line-height:1.5">{{obSub}}</p>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{obOptions}}" as="o" hint-placeholder-count="3">
+      <button onClick="{{o.pick}}" style="display:flex;align-items:center;gap:14px;text-align:left;background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;padding:15px 16px;cursor:pointer;box-shadow:3px 4px 0 rgba(42,33,24,.14);font-family:'Karla',sans-serif;transition:transform .12s" style-hover="transform:translateY(-2px) rotate(-.4deg)" style-active="transform:scale(.97)">
+        <span style="width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;border:1.5px dashed #2a2118;border-radius:50%;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;transform:rotate(-6deg)">{{o.tag}}</span>
+        <span style="display:flex;flex-direction:column;gap:2px">
+          <span style="font-family:'Young Serif',serif;font-size:17px">{{o.big}}</span>
+          <span style="font-size:12.5px;color:rgba(42,33,24,.6)">{{o.small}}</span>
+        </span>
+      </button>
+    </sc-for>
+  </div>
+  <button onClick="{{skipOb}}" style="margin-top:auto;align-self:center;background:none;border:none;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:rgba(42,33,24,.5);cursor:pointer;text-decoration:underline">SKIP — I CONTAIN MULTITUDES</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isDiscover}}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Discover deck" style="flex:1;display:flex;flex-direction:column;min-height:0">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 4px">
+    <div style="display:flex;flex-direction:column">
+      <div style="font-family:'Young Serif',serif;font-size:27px;transform:rotate(-1.5deg)">furever<span style="color:#c2593c">.</span></div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.28em;color:rgba(42,33,24,.55)">SWIPE · SMOOSH · ADOPT</div>
+    </div>
+    <button onClick="{{openFilters}}" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;font-weight:600;background:#fffdf6;border:1.5px solid #2a2118;border-radius:999px;padding:8px 14px;cursor:pointer;box-shadow:2px 3px 0 rgba(42,33,24,.15);transform:rotate(1.5deg)" style-active="transform:scale(.94) rotate(1.5deg)">FILTERS · {{filterCount}}</button>
+  </div>
+  <div style="display:flex;gap:14px;overflow-x:auto;padding:12px 20px 6px">
+    <sc-for list="{{stories}}" as="s" hint-placeholder-count="3">
+      <button onClick="{{s.open}}" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:none;cursor:pointer;padding:0" style-active="transform:scale(.95)">
+        <span style="width:58px;height:58px;border:2px dashed #c2593c;border-radius:50%;padding:3px;display:block;transform:rotate(-3deg)">
+          <image-slot id="story-{{s.id}}" shape="circle" placeholder="pic" style="width:100%;height:100%"></image-slot>
+        </span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.06em;color:rgba(42,33,24,.7);max-width:64px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{s.short}}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div ref="{{stackRef}}" style="flex:1;position:relative;margin:8px 20px 40px;min-height:0">
+    <sc-for list="{{cards}}" as="c" hint-placeholder-count="1">
+      <div data-id="{{c.id}}" onPointerDown="{{cardDown}}" onPointerMove="{{cardMove}}" onPointerUp="{{cardUp}}" onPointerCancel="{{cardUp}}" onClickCapture="{{cardClickCap}}" onClick="{{c.openTile}}" style="{{c.wrapStyle}}">
+        <div style="height:100%;display:flex;flex-direction:column;background:#fffdf6;border:1.5px solid #2a2118;border-radius:18px;box-shadow:5px 7px 0 rgba(42,33,24,.13);padding:10px 10px 12px">
+          <div style="position:relative;flex:1;min-height:0">
+            <image-slot id="pet-{{c.id}}" shape="rounded" radius="10" placeholder="Drop {{c.name}}'s glamour shot" style="width:100%;height:100%"></image-slot>
+            <div style="position:absolute;top:-8px;left:18px;width:64px;height:20px;background:rgba(226,214,182,.85);transform:rotate(-5deg);box-shadow:0 1px 2px rgba(42,33,24,.15);pointer-events:none"></div>
+            <div style="position:absolute;top:-8px;right:18px;width:64px;height:20px;background:rgba(226,214,182,.85);transform:rotate(4deg);box-shadow:0 1px 2px rgba(42,33,24,.15);pointer-events:none"></div>
+            <div style="position:absolute;top:12px;right:10px;width:62px;height:62px;border:2px dashed #c2593c;border-radius:50%;background:#f6f0e3;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(8deg);pointer-events:none">
+              <span style="font-family:'Young Serif',serif;font-size:17px;color:#c2593c">{{c.score}}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:6.5px;letter-spacing:.14em;color:#c2593c">% MATCH</span>
+            </div>
+            <div data-stamp="like" style="position:absolute;top:22px;left:14px;border:3px solid #4d8a68;color:#4d8a68;border-radius:6px;padding:4px 12px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:22px;letter-spacing:.1em;transform:rotate(-12deg);opacity:0;background:rgba(255,253,246,.85);pointer-events:none">SMITTEN</div>
+            <div data-stamp="nope" style="position:absolute;top:22px;right:80px;border:3px solid #b4452f;color:#b4452f;border-radius:6px;padding:4px 12px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:22px;letter-spacing:.1em;transform:rotate(10deg);opacity:0;background:rgba(255,253,246,.85);pointer-events:none">PASS</div>
+          </div>
+          <div onClick="{{c.openDetail}}" style="padding:12px 6px 2px;cursor:pointer">
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-family:'Young Serif',serif;font-size:25px">{{c.name}}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(42,33,24,.6)">{{c.ageLabel}}</span>
+              <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;border:1.5px solid #2a2118;border-radius:999px;padding:3px 9px;transform:rotate(-2deg)">{{c.distLabel}}</span>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#c2593c;font-weight:600;margin-top:3px">{{c.breedLabel}}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+              <sc-for list="{{c.tags}}" as="tg" hint-placeholder-count="3">
+                <span style="font-size:11px;line-height:1;background:#f6f0e3;border:1.5px dashed #2a2118;border-radius:999px;padding:5px 10px;white-space:nowrap;transform:rotate(-.6deg)">{{tg}}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+    <sc-if value="{{deckEmpty}}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:0 30px">
+        <div style="width:74px;height:74px;border:2px dashed rgba(42,33,24,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Young Serif',serif;font-size:26px;color:rgba(42,33,24,.4);transform:rotate(-6deg)">?</div>
+        <div style="font-family:'Young Serif',serif;font-size:21px;text-wrap:pretty">That's every floof in range.</div>
+        <div style="font-size:13.5px;color:rgba(42,33,24,.6)">Widen your filters, cupid — love knows no radius.</div>
+        <button onClick="{{resetDeck}}" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;font-weight:600;background:#2a2118;color:#f6f0e3;border:none;border-radius:999px;padding:11px 20px;cursor:pointer" style-active="transform:scale(.95)">RE-DEAL THE DECK</button>
+      </div>
+    </sc-if>
+  </div>
+  <div style="display:flex;justify-content:center;align-items:center;gap:22px;padding:0 0 18px;position:relative;z-index:5">
+    <button onClick="{{nopeTop}}" style="width:58px;height:58px;border-radius:50%;background:#fffdf6;border:1.5px solid #2a2118;box-shadow:3px 4px 0 rgba(42,33,24,.15);font-size:22px;color:#b4452f;cursor:pointer;font-family:'Karla',sans-serif;transition:transform .12s" style-hover="transform:rotate(-8deg)" style-active="transform:scale(.88)">✕</button>
+    <button onClick="{{infoTop}}" style="width:44px;height:44px;border-radius:50%;background:#fffdf6;border:1.5px dashed #2a2118;font-family:'Young Serif',serif;font-size:17px;cursor:pointer;transition:transform .12s" style-active="transform:scale(.88)">i</button>
+    <button onClick="{{likeTop}}" style="width:66px;height:66px;border-radius:50%;background:#c2593c;border:1.5px solid #2a2118;box-shadow:3px 4px 0 rgba(42,33,24,.2);font-size:26px;color:#f6f0e3;cursor:pointer;transition:transform .12s" style-hover="animation:wiggle .4s" style-active="transform:scale(.88)">♥</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{isMatches}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Matches" style="flex:1;min-height:0;overflow-y:auto;padding:18px 20px 20px;animation:fadeIn .25s">
+  <div style="font-family:'Young Serif',serif;font-size:28px;transform:rotate(-1deg)">The shortlist</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:rgba(42,33,24,.55);margin:4px 0 18px">{{likedCountLabel}}</div>
+  <sc-if value="{{hasMutuals}}" hint-placeholder-val="{{ false }}">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:#4d8a68;font-weight:600;margin-bottom:10px">MUTUAL SPARKS ♥</div>
+    <div style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px 18px;padding:4px 20px 8px">
+      <sc-for list="{{mutualList}}" as="m" hint-placeholder-count="2">
+        <div style="{{m.cardStyle}}">
+          <div style="position:relative;height:104px">
+            <image-slot id="pet-{{m.id}}" shape="rounded" radius="9" placeholder="{{m.name}}" style="width:100%;height:100%"></image-slot>
+            <span style="position:absolute;top:6px;left:6px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.1em;background:#4d8a68;color:#f6f0e3;border-radius:999px;padding:3px 7px;transform:rotate(-3deg)">MUTUAL ♥</span>
+          </div>
+          <div onClick="{{m.deets}}" style="cursor:pointer">
+            <div style="font-family:'Young Serif',serif;font-size:16px;margin-top:7px">{{m.name}}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.1em;color:rgba(42,33,24,.55)">{{m.breedLabel}}</div>
+          </div>
+          <button onClick="{{m.chat}}" style="width:100%;margin-top:9px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;font-weight:600;background:#c2593c;color:#f6f0e3;border:1.5px solid #2a2118;border-radius:999px;padding:8px 0;cursor:pointer;box-shadow:2px 3px 0 rgba(42,33,24,.18)" style-active="transform:scale(.95)">CHAT</button>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <sc-if value="{{hasShortlist}}" hint-placeholder-val="{{ true }}">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:rgba(42,33,24,.55);margin-bottom:10px">{{shortlistLabel}}</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <sc-for list="{{shortList}}" as="m" hint-placeholder-count="3">
+        <div style="{{m.rowStyle}}">
+          <span onClick="{{m.deets}}" style="width:52px;height:52px;flex:none;border:1.5px solid #2a2118;border-radius:50%;padding:2px;cursor:pointer">
+            <image-slot id="pet-{{m.id}}" shape="circle" placeholder="{{m.name}}" style="width:100%;height:100%"></image-slot>
+          </span>
+          <span onClick="{{m.deets}}" style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;cursor:pointer">
+            <span style="font-family:'Young Serif',serif;font-size:16.5px">{{m.name}}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.1em;color:rgba(42,33,24,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{m.breedLabel}} · {{m.distLabel}}</span>
+          </span>
+          <button onClick="{{m.chat}}" style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;font-weight:600;background:#2a2118;color:#f6f0e3;border:none;border-radius:999px;padding:8px 14px;cursor:pointer" style-active="transform:scale(.95)">CHAT</button>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <sc-if value="{{noMatches}}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:70px 26px 0">
+      <div style="font-size:34px;color:rgba(42,33,24,.3);font-family:'Young Serif',serif;transform:rotate(-8deg)">♥?</div>
+      <div style="font-family:'Young Serif',serif;font-size:20px">Nobody faved. Yet.</div>
+      <div style="font-size:13.5px;color:rgba(42,33,24,.6)">Get back out there, cupid — the deck awaits.</div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{isChat}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Chat" style="flex:1;display:flex;flex-direction:column;min-height:0;animation:fadeIn .25s">
+  <div style="display:flex;align-items:center;gap:11px;padding:12px 16px;border-bottom:1.5px solid #2a2118;background:#fdf8ec">
+    <button onClick="{{backToMatches}}" style="background:none;border:none;font-size:19px;cursor:pointer;color:#2a2118;padding:4px">←</button>
+    <span style="width:38px;height:38px;flex:none;border:1.5px solid #2a2118;border-radius:50%;padding:2px">
+      <image-slot id="pet-{{chatAnimal.id}}" shape="circle" placeholder="pic" style="width:100%;height:100%"></image-slot>
+    </span>
+    <span style="display:flex;flex-direction:column">
+      <span style="font-family:'Young Serif',serif;font-size:16px">{{chatAnimal.name}}</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:rgba(42,33,24,.55)">{{chatShelterLabel}}</span>
+    </span>
+    <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#4d8a68;border:1.5px dashed #4d8a68;border-radius:999px;padding:3px 8px;transform:rotate(2deg)">REPLIES FAST</span>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px">
+    <sc-for list="{{chatMsgs}}" as="msg" hint-placeholder-count="2">
+      <div style="{{msg.style}}">{{msg.text}}</div>
+    </sc-for>
+  </div>
+  <sc-if value="{{quickVisible}}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px">
+      <sc-for list="{{chatQuick}}" as="q" hint-placeholder-count="3">
+        <button onClick="{{q.send}}" style="flex:none;font-size:12px;background:#fffdf6;border:1.5px dashed #2a2118;border-radius:999px;padding:7px 13px;cursor:pointer;font-family:'Karla',sans-serif" style-active="transform:scale(.95)">{{q.text}}</button>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div style="display:flex;gap:10px;padding:10px 16px 16px;border-top:1.5px solid rgba(42,33,24,.15)">
+    <input value="{{chatDraft}}" onChange="{{draftChange}}" placeholder="Say something fetching…" style="flex:1;font-family:'Karla',sans-serif;font-size:14px;background:#fffdf6;border:1.5px solid #2a2118;border-radius:999px;padding:11px 16px;outline:none;color:#2a2118">
+    <button onClick="{{sendChat}}" style="width:44px;height:44px;border-radius:50%;background:#c2593c;color:#f6f0e3;border:1.5px solid #2a2118;font-size:17px;cursor:pointer" style-active="transform:scale(.9)">➤</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{isProfile}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Profile" style="flex:1;overflow-y:auto;padding:24px 22px;animation:fadeIn .25s">
+  <div style="display:flex;align-items:center;gap:16px">
+    <span style="width:88px;height:88px;flex:none;border:2px dashed #c2593c;border-radius:50%;padding:4px;transform:rotate(-3deg)">
+      <image-slot id="you-avatar" shape="circle" placeholder="You"></image-slot>
+    </span>
+    <span style="display:flex;flex-direction:column;gap:3px">
+      <span style="font-family:'Young Serif',serif;font-size:24px">You</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;color:rgba(42,33,24,.55)">CERTIFIED FUTURE PET PARENT</span>
+    </span>
+  </div>
+  <div style="display:flex;gap:10px;margin:22px 0">
+    <div style="flex:1;background:#fffdf6;border:1.5px solid #2a2118;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:2px 3px 0 rgba(42,33,24,.12);transform:rotate(-.6deg)">
+      <div style="font-family:'Young Serif',serif;font-size:21px">{{statSeen}}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;color:rgba(42,33,24,.55)">MET</div>
+    </div>
+    <div style="flex:1;background:#fffdf6;border:1.5px solid #2a2118;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:2px 3px 0 rgba(42,33,24,.12);transform:rotate(.8deg)">
+      <div style="font-family:'Young Serif',serif;font-size:21px;color:#c2593c">{{statLiked}}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;color:rgba(42,33,24,.55)">SMITTEN</div>
+    </div>
+    <div style="flex:1;background:#fffdf6;border:1.5px solid #2a2118;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:2px 3px 0 rgba(42,33,24,.12);transform:rotate(-.8deg)">
+      <div style="font-family:'Young Serif',serif;font-size:21px;color:#4d8a68">{{statMutual}}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.16em;color:rgba(42,33,24,.55)">MUTUALS</div>
+    </div>
+  </div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:rgba(42,33,24,.55);margin-bottom:10px">YOUR VIBE, ON RECORD</div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px">
+    <sc-for list="{{prefChips}}" as="pc" hint-placeholder-count="3">
+      <span style="font-size:12.5px;background:#fffdf6;border:1.5px solid #2a2118;border-radius:999px;padding:7px 13px;transform:rotate(-1deg)">{{pc}}</span>
+    </sc-for>
+  </div>
+  <button onClick="{{retakeQuiz}}" style="margin-top:22px;width:100%;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;font-weight:600;background:#2a2118;color:#f6f0e3;border:none;border-radius:999px;padding:14px 0;cursor:pointer" style-active="transform:scale(.98)">RETAKE THE VIBE QUIZ</button>
+  <button onClick="{{logout}}" style="margin-top:10px;width:100%;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;font-weight:600;background:none;color:#c2593c;border:1.5px dashed #c2593c;border-radius:999px;padding:13px 0;cursor:pointer" style-active="transform:scale(.98)">LOG OUT (THE FLOOFS WILL WAIT)</button>
+  <p style="text-align:center;font-size:11.5px;color:rgba(42,33,24,.45);margin-top:16px">Furever v0.9 — no animals were left un-booped in the making of this app.</p>
+</div>
+</sc-if>
+
+<div style="{{tabBarStyle}}">
+  <sc-for list="{{navTabs}}" as="t" hint-placeholder-count="3">
+    <button onClick="{{t.go}}" style="{{t.style}}" style-active="transform:scale(.95)">{{t.label}}</button>
+  </sc-for>
+</div>
+
+<sc-if value="{{hasDetail}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Detail sheet" style="position:absolute;inset:0;z-index:40">
+  <div onClick="{{closeDetail}}" style="position:absolute;inset:0;background:rgba(42,33,24,.4);animation:fadeIn .25s"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:88%;background:#f6f0e3;border-top:1.5px solid #2a2118;border-radius:22px 22px 0 0;animation:slideUp .35s cubic-bezier(.2,.9,.3,1.05);display:flex;flex-direction:column;overflow:hidden">
+    <div style="display:flex;justify-content:center;padding:9px 0 3px"><span style="width:42px;height:4px;border-radius:99px;background:rgba(42,33,24,.25)"></span></div>
+    <button onClick="{{closeDetail}}" style="position:absolute;top:12px;right:14px;width:32px;height:32px;border-radius:50%;background:#fffdf6;border:1.5px solid #2a2118;cursor:pointer;font-size:13px;z-index:2" style-active="transform:scale(.9)">✕</button>
+    <div style="flex:1;overflow-y:auto;padding:6px 20px 24px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-top:8px">
+        <span style="font-family:'Young Serif',serif;font-size:30px">{{d.name}}</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(42,33,24,.6)">{{d.ageLabel}}</span>
+        <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;border:1.5px solid #2a2118;border-radius:999px;padding:4px 10px;transform:rotate(-2deg)">{{d.distLabel}}</span>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:#c2593c;font-weight:600;margin-top:2px">{{d.breedLabel}}</div>
+      <p style="font-size:14.5px;line-height:1.55;color:rgba(42,33,24,.8);margin:12px 0 14px;text-wrap:pretty">{{d.bio}}</p>
+      <div style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:16px;padding:10px;box-shadow:3px 4px 0 rgba(42,33,24,.12);margin:0 0 16px;transform:rotate(-.5deg)">
+        <div style="font-family:'Young Serif',serif;font-size:15px;margin:3px 4px 10px">{{d.p0.caption}}</div>
+        <div style="position:relative;height:230px">
+          <image-slot id="{{d.p0.slot}}" shape="rounded" radius="10" placeholder="{{d.p0.ph}}" style="width:100%;height:100%"></image-slot>
+          <div style="position:absolute;top:-8px;left:20px;width:64px;height:19px;background:rgba(226,214,182,.85);transform:rotate(-5deg);pointer-events:none"></div>
+          <div style="position:absolute;bottom:10px;right:10px;width:60px;height:60px;border:2px dashed #c2593c;border-radius:50%;background:#f6f0e3;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(8deg);pointer-events:none">
+            <span style="font-family:'Young Serif',serif;font-size:17px;color:#c2593c">{{d.score}}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:6.5px;letter-spacing:.14em;color:#c2593c">% MATCH</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{d.tags}}" as="tg" hint-placeholder-count="3">
+          <span style="font-size:12px;background:#fffdf6;border:1.5px dashed #2a2118;border-radius:999px;padding:6px 12px;transform:rotate(-1deg)">{{tg}}</span>
+        </sc-for>
+      </div>
+      <div style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:16px;padding:10px;box-shadow:3px 4px 0 rgba(42,33,24,.12);margin:18px 0 0;transform:rotate(.6deg)">
+        <div style="font-family:'Young Serif',serif;font-size:15px;margin:3px 4px 10px">{{d.p1.caption}}</div>
+        <div style="position:relative;height:230px">
+          <image-slot id="{{d.p1.slot}}" shape="rounded" radius="10" placeholder="{{d.p1.ph}}" style="width:100%;height:100%"></image-slot>
+          <div style="position:absolute;top:-8px;right:20px;width:64px;height:19px;background:rgba(226,214,182,.85);transform:rotate(4deg);pointer-events:none"></div>
+        </div>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:rgba(42,33,24,.55);margin:20px 0 10px">THE ROOMMATE REPORT</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        <sc-for list="{{d.compat}}" as="cc" hint-placeholder-count="3">
+          <div style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:12px;padding:11px 6px;text-align:center;box-shadow:2px 3px 0 rgba(42,33,24,.1)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:rgba(42,33,24,.55)">{{cc.k}}</div>
+            <div style="{{cc.style}}">{{cc.v}}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:16px;padding:10px;box-shadow:3px 4px 0 rgba(42,33,24,.12);margin:18px 0 0;transform:rotate(-.4deg)">
+        <div style="font-family:'Young Serif',serif;font-size:15px;margin:3px 4px 10px">{{d.p2.caption}}</div>
+        <div style="position:relative;height:230px">
+          <image-slot id="{{d.p2.slot}}" shape="rounded" radius="10" placeholder="{{d.p2.ph}}" style="width:100%;height:100%"></image-slot>
+          <div style="position:absolute;top:-8px;left:20px;width:64px;height:19px;background:rgba(226,214,182,.85);transform:rotate(-4deg);pointer-events:none"></div>
+        </div>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:rgba(42,33,24,.55);margin:20px 0 10px">WHERE TO FIND {{d.upperName}}</div>
+      <div style="background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;overflow:hidden;box-shadow:2px 3px 0 rgba(42,33,24,.1)">
+        <div style="height:96px;background:repeating-linear-gradient(-45deg, rgba(42,33,24,.06) 0 8px, transparent 8px 16px);display:flex;align-items:center;justify-content:center">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;background:#f6f0e3;border:1.5px dashed rgba(42,33,24,.4);border-radius:6px;padding:5px 10px;color:rgba(42,33,24,.6)">MAP · {{d.distLabel}} AWAY</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px">
+          <span style="display:flex;flex-direction:column;gap:1px">
+            <span style="font-family:'Young Serif',serif;font-size:15px">{{d.shelter}}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:rgba(42,33,24,.55)">ADOPTION FEE · {{d.fee}}</span>
+          </span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:#4d8a68;border:1.5px dashed #4d8a68;border-radius:999px;padding:4px 9px;transform:rotate(2deg)">OPEN TODAY</span>
+        </div>
+      </div>
+      <button onClick="{{d.startChat}}" style="margin-top:18px;width:100%;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;font-weight:600;background:#c2593c;color:#f6f0e3;border:1.5px solid #2a2118;border-radius:999px;padding:15px 0;cursor:pointer;box-shadow:3px 4px 0 rgba(42,33,24,.2)" style-active="transform:scale(.98)">SLIDE INTO {{d.upperName}}'S DMS</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{showFilters}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Filters" style="position:absolute;inset:0;z-index:50">
+  <div onClick="{{closeFilters}}" style="position:absolute;inset:0;background:rgba(42,33,24,.4);animation:fadeIn .25s"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;background:#f6f0e3;border-top:1.5px solid #2a2118;border-radius:22px 22px 0 0;animation:slideUp .3s cubic-bezier(.2,.9,.3,1.05);padding:14px 22px 26px">
+    <div style="display:flex;justify-content:center;padding-bottom:8px"><span style="width:42px;height:4px;border-radius:99px;background:rgba(42,33,24,.25)"></span></div>
+    <div style="font-family:'Young Serif',serif;font-size:22px;margin-bottom:16px">Narrow the field</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:rgba(42,33,24,.55);margin-bottom:8px">SPECIES</div>
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <sc-for list="{{speciesChips}}" as="sp" hint-placeholder-count="3">
+        <button onClick="{{sp.pick}}" style="{{sp.style}}" style-active="transform:scale(.95)">{{sp.label}}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:rgba(42,33,24,.7);margin-bottom:4px"><span>DISTANCE</span><span style="color:#c2593c">≤ {{maxDistLabel}}</span></div>
+    <input type="range" min="1" max="50" value="{{maxDist}}" onChange="{{setDist}}" style="width:100%;accent-color:#c2593c;margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:rgba(42,33,24,.7);margin-bottom:4px"><span>AGE</span><span style="color:#c2593c">≤ {{maxAgeLabel}}</span></div>
+    <input type="range" min="1" max="15" value="{{maxAge}}" onChange="{{setAge}}" style="width:100%;accent-color:#c2593c;margin-bottom:22px">
+    <button onClick="{{closeFilters}}" style="width:100%;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;font-weight:600;background:#2a2118;color:#f6f0e3;border:none;border-radius:999px;padding:14px 0;cursor:pointer" style-active="transform:scale(.98)">SHOW ME {{filteredCountLabel}}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{hasStory}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Story" onClick="{{advanceStory}}" style="position:absolute;inset:0;z-index:60;background:#1c1712;display:flex;flex-direction:column;animation:fadeIn .2s;cursor:pointer">
+  <div style="display:flex;gap:5px;padding:12px 14px 8px">
+    <sc-for list="{{storyBars}}" as="b" hint-placeholder-count="3">
+      <span style="flex:1;height:3px;border-radius:99px;background:rgba(246,240,227,.25);overflow:hidden;display:block"><span style="{{b.style}}"></span></span>
+    </sc-for>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;padding:4px 16px 10px">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f6f0e3">{{story.shelterUpper}}</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(246,240,227,.5)">{{story.when}}</span>
+    <button onClick="{{closeStory}}" style="margin-left:auto;background:none;border:none;color:#f6f0e3;font-size:16px;cursor:pointer">✕</button>
+  </div>
+  <div style="flex:1;margin:0 14px;position:relative">
+    <image-slot id="{{storyPicSlot}}" shape="rounded" radius="16" placeholder="Shelter update photo" style="width:100%;height:100%"></image-slot>
+  </div>
+  <div style="margin:14px 18px 26px;background:#f6f0e3;border:1.5px solid #2a2118;border-radius:14px;padding:13px 16px;transform:rotate(-.8deg);box-shadow:3px 4px 0 rgba(0,0,0,.3)">
+    <div style="font-family:'Young Serif',serif;font-size:16px;color:#2a2118">{{story.note}}</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;color:rgba(42,33,24,.55);margin-top:4px">TAP TO CONTINUE</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{hasMatch}}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Match celebration" style="position:absolute;inset:0;z-index:70;background:rgba(42,33,24,.55);display:flex;align-items:center;justify-content:center;animation:fadeIn .2s;overflow:hidden">
+  <sc-for list="{{confettiBits}}" as="cf" hint-placeholder-count="0">
+    <span style="{{cf.style}}"></span>
+  </sc-for>
+  <div style="width:82%;background:#f6f0e3;border:1.5px solid #2a2118;border-radius:20px;padding:28px 22px 24px;text-align:center;box-shadow:6px 8px 0 rgba(0,0,0,.3);animation:popIn .5s cubic-bezier(.2,1.4,.4,1);transform:rotate(-2deg)">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;color:#c2593c;font-weight:600">STOP THE PRESSES</div>
+    <div style="font-family:'Young Serif',serif;font-size:33px;line-height:1.1;margin:10px 0 6px;text-wrap:pretty">A pawfect match!</div>
+    <div style="font-size:13.5px;color:rgba(42,33,24,.65);line-height:1.5">You and {{match.name}} faved each other.<br>Coincidence? {{match.shelter}} thinks not.</div>
+    <div style="display:flex;justify-content:center;align-items:center;gap:0;margin:20px 0 22px">
+      <span style="width:84px;height:84px;border:2px dashed #c2593c;border-radius:50%;padding:3px;background:#f6f0e3;transform:rotate(-6deg)"><image-slot id="you-avatar" shape="circle" placeholder="You"></image-slot></span>
+      <span style="font-family:'Young Serif',serif;font-size:24px;color:#c2593c;margin:0 -6px;z-index:2;position:relative">♥</span>
+      <span style="width:84px;height:84px;border:2px dashed #4d8a68;border-radius:50%;padding:3px;background:#f6f0e3;transform:rotate(6deg)"><image-slot id="pet-{{match.id}}" shape="circle" placeholder="{{match.name}}"></image-slot></span>
+    </div>
+    <button onClick="{{matchChat}}" style="width:100%;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;font-weight:600;background:#c2593c;color:#f6f0e3;border:1.5px solid #2a2118;border-radius:999px;padding:13px 0;cursor:pointer;box-shadow:3px 4px 0 rgba(42,33,24,.25)" style-active="transform:scale(.97)">SEND THE FIRST WOOF</button>
+    <button onClick="{{matchDismiss}}" style="margin-top:10px;width:100%;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;background:none;border:none;color:rgba(42,33,24,.55);cursor:pointer;text-decoration:underline">KEEP SWIPING (PLAYER)</button>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:510,&quot;height&quot;:960},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;onboarding&quot;,&quot;discover&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Flow&quot;},&quot;matchMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;destiny&quot;,&quot;every-like&quot;,&quot;never&quot;],&quot;default&quot;:&quot;destiny&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Flow&quot;},&quot;tilt&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Fun&quot;}}">
+class Component extends DCLogic {
+  animals = [
+    {id:'biscuit', name:'Haku', species:'dog', breed:'Australian Shepherd', age:2, dist:1.2, shelter:'Happy Tails Rescue', fee:'R1,450', score:88, mutual:true, tags:['food-motivated','certified goofball','leash optimist'], kids:'YES', dogs:'YES', cats:'ASK', bio:'Haku believes every stranger is a friend who hasn\u2019t thrown a ball yet. Will trade unconditional love for exactly one (1) slice of cheese.'},
+    {id:'clementine', name:'Moon Cake', species:'cat', breed:'Orange tabby', age:6, dist:0.8, shelter:'Whisker Haven', fee:'R950', score:81, mutual:false, tags:['chaos gremlin','sunbeam sommelier','4am parkour'], kids:'YES', dogs:'NO', cats:'YES', bio:'One brain cell, zero regrets. Moon Cake will knock your pen off the desk and then look at you like YOU did it.'},
+    {id:'waffles', name:'Yuki', species:'dog', breed:'Corgi', age:4, dist:3.1, shelter:'Paws & Effect', fee:'R1,650', score:76, mutual:false, tags:['professional loaf','herds children','big drama'], kids:'YES', dogs:'ASK', cats:'YES', bio:'Short king. Waffles has never once caught his tail but remains undefeated in optimism. Screams at the vacuum on your behalf.'},
+    {id:'miso', name:'Miso', species:'cat', breed:'Siamese', age:3, dist:2.4, shelter:'Whisker Haven', fee:'R1,050', score:72, mutual:false, tags:['opinionated','velcro cat','bird TV critic'], kids:'ASK', dogs:'NO', cats:'ASK', bio:'Miso has notes. About everything. Adopt her and receive a lifetime subscription to running commentary, free of charge.'},
+    {id:'pretzel', name:'Pretzel', species:'dog', breed:'Dachshund mix', age:5, dist:4.6, shelter:'Happy Tails Rescue', fee:'R1,250', score:84, mutual:true, tags:['burrito enthusiast','snoot booper','couch strategist'], kids:'YES', dogs:'YES', cats:'YES', bio:'Half dog, half blanket. Pretzel\u2019s love language is tunneling under your duvet and sighing dramatically until cuddled.'},
+    {id:'juniper', name:'Juniper', species:'cat', breed:'Tuxedo', age:2, dist:1.9, shelter:'Paws & Effect', fee:'R1,000', score:79, mutual:false, tags:['formalwear always','lap auditor','biscuit maker'], kids:'YES', dogs:'ASK', cats:'YES', bio:'Dressed for a gala, lives for a nap. Juniper kneads dough professionally (on your stomach, at 6am).'},
+    {id:'meatball', name:'Meatball', species:'dog', breed:'Pit mix', age:3, dist:5.8, shelter:'Paws & Effect', fee:'R1,150', score:86, mutual:false, tags:['110% wiggle','sun worshipper','gentle unit'], kids:'YES', dogs:'YES', cats:'ASK', bio:'Built like a coffee table, soft like a marshmallow. Meatball\u2019s tail has never stopped wagging. Scientists are baffled.'},
+    {id:'pickle', name:'Pickle', species:'cat', breed:'Sphynx', age:4, dist:7.2, shelter:'Whisker Haven', fee:'R1,500', score:70, mutual:true, tags:['heated blanket seeker','alien prince','sweater collection'], kids:'ASK', dogs:'YES', cats:'YES', bio:'Pickle is naked and unbothered. Runs warmer than your laptop and demands to be treated like the royalty he clearly is.'}
+  ];
+  shelterStories = [
+    {id:'s1', shelter:'Happy Tails Rescue', short:'Happy Tails', when:'2H AGO', note:'Six new arrivals this week \u2014 the goldens have landed.'},
+    {id:'s2', shelter:'Whisker Haven', short:'Whisker Haven', when:'5H AGO', note:'It is officially kitten season. Send help (and towels).'},
+    {id:'s3', shelter:'Paws & Effect', short:'Paws & Effect', when:'1D AGO', note:'Adoption fair this Saturday \u2014 first 10 fees waived!'}
+  ];
+  confetti = Array.from({length:16},(_,i)=>({left:(i*61)%100, delay:(i%5)*0.22, dur:2.4+(i%4)*0.5, color:['#c2593c','#4d8a68','#d9a441','#f6f0e3'][i%4], round:i%3===0, size:8+(i%3)*4}));
+  state = {screen:null, loginMode:'signin', loginName:'', loginEmail:'', loginPass:'', obStep:0, prefs:{}, swiped:{}, detailId:null, showFilters:false, matchId:null, storyIdx:null, chatId:null, threads:{}, chatDraft:'', filters:{species:'all', maxDist:25, maxAge:12}};
+  stackRef = React.createRef();
+
+  screen(){ return this.state.screen ?? (this.props.startScreen ?? 'login'); }
+  passes(a){ const f=this.state.filters; return (f.species==='all'||a.species===f.species) && a.dist<=f.maxDist && a.age<=f.maxAge; }
+  remaining(){ return this.animals.filter(a=>!this.state.swiped[a.id] && this.passes(a)); }
+  topId(){ const r=this.remaining(); return r[0] ? r[0].id : null; }
+  matchEligible(a){ const m=this.props.matchMode ?? 'destiny'; return m==='every-like' || (m==='destiny' && a.mutual); }
+
+  commitSwipe(id, dir, el){
+    if(el){ el.style.transform=''; el.style.transition=''; el.style.opacity=''; ['like','nope'].forEach(k=>{const s=el.querySelector('[data-stamp="'+k+'"]'); if(s)s.style.opacity='0';}); }
+    const a=this.animals.find(x=>x.id===id);
+    this.setState(s=>({swiped:{...s.swiped,[id]:dir}, matchId:(dir==='like' && this.matchEligible(a)) ? id : s.matchId}));
+  }
+  flyEl(el, dir){
+    const id=el.dataset.id, x=dir==='like'?520:-520;
+    el.style.transition='transform .32s ease-in, opacity .32s ease-in';
+    el.style.transform='translate('+x+'px,-30px) rotate('+(dir==='like'?24:-24)+'deg)';
+    el.style.opacity='0';
+    const st=el.querySelector('[data-stamp="'+(dir==='like'?'like':'nope')+'"]'); if(st)st.style.opacity='1';
+    setTimeout(()=>this.commitSwipe(id, dir, el), 310);
+  }
+  fly(dir){
+    const id=this.topId(); if(!id) return;
+    const el=this.stackRef.current && this.stackRef.current.querySelector('[data-id="'+id+'"]');
+    if(el) this.flyEl(el, dir); else this.commitSwipe(id, dir, null);
+  }
+  cardDown(e){
+    const el=e.currentTarget;
+    if(el.dataset.id!==String(this.topId())) return;
+    this.dragEl=el; this.sx=e.clientX; this.sy=e.clientY; this.moved=false;
+    try{ el.setPointerCapture(e.pointerId); }catch(_){}
+    el.style.transition='none'; el.style.cursor='grabbing';
+  }
+  cardMove(e){
+    if(!this.dragEl || e.currentTarget!==this.dragEl) return;
+    const dx=e.clientX-this.sx, dy=e.clientY-this.sy;
+    if(Math.abs(dx)+Math.abs(dy)>7) this.moved=true;
+    this.dragEl.style.transform='translate('+dx+'px,'+dy+'px) rotate('+(dx*0.07)+'deg)';
+    const l=this.dragEl.querySelector('[data-stamp="like"]'), n=this.dragEl.querySelector('[data-stamp="nope"]');
+    if(l) l.style.opacity=String(Math.min(1, Math.max(0, dx/90)));
+    if(n) n.style.opacity=String(Math.min(1, Math.max(0, -dx/90)));
+  }
+  cardUp(e){
+    if(!this.dragEl) return;
+    const el=this.dragEl; this.dragEl=null;
+    const dx=e.clientX-this.sx;
+    el.style.cursor='grab';
+    if(dx>110){ this.flyEl(el,'like'); }
+    else if(dx<-110){ this.flyEl(el,'nope'); }
+    else{
+      el.style.transition='transform .45s cubic-bezier(.2,1.6,.4,1)';
+      el.style.transform='';
+      const l=el.querySelector('[data-stamp="like"]'), n=el.querySelector('[data-stamp="nope"]');
+      if(l)l.style.opacity='0'; if(n)n.style.opacity='0';
+    }
+  }
+  openChat(id){
+    this.setState(s=>{
+      const a=this.animals.find(x=>x.id===id);
+      const threads={...s.threads};
+      if(!threads[id]) threads[id]=[{from:'them', text:'Hi! This is '+a.shelter+' \u2014 '+a.name+' just did a happy dance. How can we help you two meet?'}];
+      return {threads, chatId:id, screen:'chat', matchId:null, detailId:null};
+    });
+  }
+  send(text){
+    const id=this.state.chatId; if(!id || !text.trim()) return;
+    const a=this.animals.find(x=>x.id===id);
+    this.setState(s=>({threads:{...s.threads,[id]:[...s.threads[id],{from:'me',text:text.trim()}]}, chatDraft:''}));
+    clearTimeout(this.replyT);
+    this.replyT=setTimeout(()=>{
+      const replies=['Great question! '+a.name+' is available for meet-and-greets all week \u2014 want us to pencil you in?','We can confirm '+a.name+' is 10/10. Come by '+a.shelter+' anytime before 6pm!','Paperwork takes ~20 minutes and '+a.name+' will supervise the whole thing.'];
+      const t=this.state.threads[id]||[]; const idx=Math.min(Math.floor(t.filter(m=>m.from==='me').length-1), replies.length-1);
+      this.setState(s=>({threads:{...s.threads,[id]:[...(s.threads[id]||[]),{from:'them',text:replies[Math.max(0,idx)]}]}}));
+    }, 900);
+  }
+  openStory(i, p=0){
+    clearTimeout(this.storyT);
+    this.setState({storyIdx:i, storyPic:p});
+    this.storyT=setTimeout(()=>{ if(this.state.storyIdx===i) this.nextStoryStep(); }, 6000);
+  }
+  nextStoryStep(){
+    const i=this.state.storyIdx, p=this.state.storyPic||0;
+    if(i==null) return;
+    if(p<2) this.openStory(i, p+1);
+    else if(i+1<this.shelterStories.length) this.openStory(i+1, 0);
+    else { clearTimeout(this.storyT); this.setState({storyIdx:null, storyPic:0}); }
+  }
+  componentWillUnmount(){ clearTimeout(this.replyT); clearTimeout(this.storyT); }
+
+  renderVals(){
+    const S=this.state, scr=this.screen(), tilt=this.props.tilt ?? true;
+    const prefs=S.prefs;
+    const scoreOf=a=>Math.min(99, a.score + ((prefs.species && (prefs.species==='both'||prefs.species===a.species)) ? 8 : 0));
+    const rem=this.remaining(); const topId=rem[0]?rem[0].id:null;
+    const base='position:absolute;inset:0;touch-action:none;cursor:grab;user-select:none;transition:transform .3s cubic-bezier(.2,.9,.3,1.2), opacity .3s;';
+    const posStyle=i=>{
+      if(i===0) return base+'z-index:3;transform:rotate('+(tilt?-1.2:0)+'deg)';
+      if(i===1) return base+'z-index:2;transform:translateY(14px) scale(.96) rotate('+(tilt?1.6:0)+'deg)';
+      if(i===2) return base+'z-index:1;transform:translateY(26px) scale(.92) rotate('+(tilt?-2:0)+'deg)';
+      return base+'z-index:0;opacity:0;pointer-events:none;transform:translateY(26px) scale(.92)';
+    };
+    const cards=this.animals.map(a=>{
+      const ri=rem.findIndex(r=>r.id===a.id);
+      return {id:a.id, name:a.name, ageLabel:a.age+(a.age===1?' yr':' yrs'), breedLabel:a.breed.toUpperCase(), distLabel:a.dist+' KM', score:scoreOf(a), tags:a.tags,
+        wrapStyle: ri<0 ? 'display:none' : posStyle(ri),
+        openDetail:()=>{ if(!this.moved) this.setState({detailId:a.id}); },
+        openTile:e=>{ if(this.moved) return; const slot=e.target && e.target.closest && e.target.closest('image-slot'); if(slot && !slot.hasAttribute('data-filled')) return; if(a.id===this.topId()) this.setState({detailId:a.id}); }};
+    });
+    const obSteps=[
+      {title:'Team Woof or Team Meow?', sub:'No wrong answers. Some furrier than others.', key:'species', opts:[
+        {tag:'A', big:'Team Woof', small:'Dogs are my love language', v:'dog'},
+        {tag:'B', big:'Team Meow', small:'Cats chose me long ago', v:'cat'},
+        {tag:'C', big:'Chaos, please', small:'All fur is good fur', v:'both'}]},
+      {title:'What\u2019s home like?', sub:'Be honest \u2014 they will find the one couch cushion that is theirs.', key:'home', opts:[
+        {tag:'A', big:'Cozy apartment', small:'Small space, big heart', v:'apartment'},
+        {tag:'B', big:'House + yard', small:'Zoomies infrastructure included', v:'yard'},
+        {tag:'C', big:'Wide open spaces', small:'Basically a nature documentary', v:'farm'}]},
+      {title:'Pick your speed.', sub:'Matching energy levels is 90% of cohabitation.', key:'energy', opts:[
+        {tag:'A', big:'Couch potato', small:'Professional nappers only', v:'chill'},
+        {tag:'B', big:'Weekend warrior', small:'Hikes, parks, the occasional puddle', v:'medium'},
+        {tag:'C', big:'Zoomies 24:7', small:'I can keep up. Probably.', v:'high'}]}
+    ];
+    const step=obSteps[Math.min(S.obStep,2)];
+    const obOptions=step.opts.map(o=>({...o, pick:()=>{
+      const prefs2={...this.state.prefs,[step.key]:o.v};
+      if(S.obStep>=2) this.setState({prefs:prefs2, screen:'discover', obStep:0});
+      else this.setState({prefs:prefs2, obStep:S.obStep+1});
+    }}));
+    const liked=this.animals.filter(a=>S.swiped[a.id]==='like');
+    const seen=Object.keys(S.swiped).length;
+    const mutuals=liked.filter(a=>this.matchEligible(a));
+    const d0=this.animals.find(a=>a.id===S.detailId);
+    const compatStyle=v=>'font-family:\'Young Serif\',serif;font-size:15px;margin-top:3px;color:'+(v==='YES'?'#4d8a68':v==='NO'?'#b4452f':'#b8860b');
+    const capsMap={
+      biscuit:['The face when someone spells W-A-L-K','What Sunday self-care looks like','Proof I can sit (for cheese)'],
+      clementine:['Mid-parkour, 4:07am','My sunbeam, my rules','The pen absolutely deserved it'],
+      waffles:['Peak loaf performance','Herding practice (the children are fine)','Vacuum stand-off, round 3'],
+      miso:['Reviewing the bird channel','I have notes about dinner','Velcro mode: engaged'],
+      pretzel:['Fully deployed burrito','Snoot ready for booping','Duvet tunnel, day 12'],
+      juniper:['Black tie, every day','Currently auditing this lap','Biscuit production, 6am sharp'],
+      meatball:['110% wiggle, captured live','Sun worship in progress','Gentle unit at rest'],
+      pickle:['Sweater weather is always','Royalty demands a heated blanket','Alien prince glamour shot']
+    };
+    const caps=d0?(capsMap[d0.id]||['A candid moment','Another candid moment','One more for the album']):[];
+    const d=d0?{
+      p0:{slot:'pet-'+d0.id, caption:caps[0], ph:'Drop a pic of '+d0.name},
+      p1:{slot:'pet-'+d0.id+'-2', caption:caps[1], ph:'Drop a pic of '+d0.name},
+      p2:{slot:'pet-'+d0.id+'-3', caption:caps[2], ph:'Drop a pic of '+d0.name},
+      id:d0.id, name:d0.name, upperName:d0.name.toUpperCase(), ageLabel:d0.age+(d0.age===1?' yr old':' yrs old'), breedLabel:d0.breed.toUpperCase()+' \u00b7 '+(d0.species==='dog'?'DOG':'CAT'), distLabel:d0.dist+' KM', score:scoreOf(d0), bio:d0.bio, tags:d0.tags, shelter:d0.shelter, fee:d0.fee,
+      compat:[{k:'KIDS',v:d0.kids,style:compatStyle(d0.kids)},{k:'DOGS',v:d0.dogs,style:compatStyle(d0.dogs)},{k:'CATS',v:d0.cats,style:compatStyle(d0.cats)}],
+      startChat:()=>this.openChat(d0.id)}:null;
+    const chatA=this.animals.find(a=>a.id===S.chatId);
+    const thread=(S.chatId && S.threads[S.chatId])||[];
+    const msgBase='max-width:78%;padding:10px 14px;font-size:13.5px;line-height:1.45;border-radius:16px;animation:popIn .25s;';
+    const chatMsgs=thread.map(m=>({text:m.text, style: m.from==='me'
+      ? msgBase+'align-self:flex-end;background:#2a2118;color:#f6f0e3;border-bottom-right-radius:4px'
+      : msgBase+'align-self:flex-start;background:#fffdf6;color:#2a2118;border:1.5px solid #2a2118;border-bottom-left-radius:4px'}));
+    const chatQuick=chatA?['When can I visit?','Is '+chatA.name+' good with kids?','Tell me everything.'].map(t=>({text:t, send:()=>this.send(t)})):[];
+    const matchA=this.animals.find(a=>a.id===S.matchId);
+    const story=S.storyIdx!=null?this.shelterStories[S.storyIdx]:null;
+    const sPic=S.storyPic||0;
+    const storyBars=[0,1,2].map(p=>({style:'display:block;height:100%;background:#f6f0e3;border-radius:99px;'+(sPic>p?'width:100%':sPic===p?'width:0%;animation:storybar 6s linear forwards':'width:0%')}));
+    const storySlot=p=>story?('story-full-'+story.id+(p===0?'':'-p'+p)):'';
+    const tabBase='flex:1;padding:24px 0 34px;background:none;border:none;cursor:pointer;font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:.18em;transition:transform .12s;';
+    const navTabs=[
+      {label:'DISCOVER', s:'discover'},
+      {label:'MATCHES'+(liked.length?' \u00b7 '+liked.length:''), s:'matches'},
+      {label:'PROFILE', s:'profile'}
+    ].map(t=>({label:t.label, go:()=>this.setState({screen:t.s, detailId:null, showFilters:false}), style:tabBase+(scr===t.s||(scr==='chat'&&t.s==='matches')?'color:#c2593c;font-weight:600':'color:rgba(42,33,24,.5)')}));
+    const f=S.filters;
+    const chipBase='font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:.1em;font-weight:600;border-radius:999px;padding:9px 16px;cursor:pointer;';
+    const speciesChips=[{label:'ALL FLOOFS',v:'all'},{label:'DOGS',v:'dog'},{label:'CATS',v:'cat'}].map(c=>({label:c.label, pick:()=>this.setState({filters:{...f,species:c.v}}), style:chipBase+(f.species===c.v?'background:#2a2118;color:#f6f0e3;border:1.5px solid #2a2118':'background:#fffdf6;color:#2a2118;border:1.5px dashed #2a2118')}));
+    const filteredCount=this.animals.filter(a=>this.passes(a)).length;
+    const activeFilters=(f.species!=='all'?1:0)+(f.maxDist<25?1:0)+(f.maxAge<12?1:0);
+    const prefLabelMap={dog:'Team Woof', cat:'Team Meow', both:'All fur welcome', apartment:'Cozy apartment', yard:'House + yard', farm:'Wide open spaces', chill:'Couch potato', medium:'Weekend warrior', high:'Zoomies 24:7'};
+    const prefChips=Object.values(prefs).map(v=>prefLabelMap[v]||v);
+    const loginTab=on=>'font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.16em;font-weight:600;padding:10px 20px;cursor:pointer;border:1.5px solid #2a2118;'+(on?'background:#2a2118;color:#f6f0e3;':'background:#fffdf6;color:rgba(42,33,24,.6);');
+    const confettiBits=matchA?this.confetti.map(c=>({style:'position:absolute;top:-40px;left:'+c.left+'%;width:'+c.size+'px;height:'+c.size+'px;background:'+c.color+';'+(c.round?'border-radius:50%;':'')+'animation:fall '+c.dur+'s linear '+c.delay+'s infinite;pointer-events:none'})):[];
+    return {
+      isLogin:scr==='login', isOnboarding:scr==='onboarding', isDiscover:scr==='discover', isMatches:scr==='matches', isChat:scr==='chat'&&!!chatA, isProfile:scr==='profile',
+      isRegisterMode:S.loginMode==='register',
+      loginTagline:S.loginMode==='register'?'New here? The floofs have been expecting you.':'Welcome back. The floofs missed you.',
+      loginCta:S.loginMode==='register'?'MAKE IT OFFICIAL \u2192':'LET ME IN \u2192',
+      signinTabStyle:loginTab(S.loginMode==='signin')+'border-radius:999px 0 0 999px;',
+      registerTabStyle:loginTab(S.loginMode==='register')+'border-radius:0 999px 999px 0;border-left:none;',
+      pickSignin:()=>this.setState({loginMode:'signin'}), pickRegister:()=>this.setState({loginMode:'register'}),
+      loginName:S.loginName, loginEmail:S.loginEmail, loginPass:S.loginPass,
+      nameChange:e=>this.setState({loginName:e.target.value}),
+      emailChange:e=>this.setState({loginEmail:e.target.value}),
+      passChange:e=>this.setState({loginPass:e.target.value}),
+      submitLogin:()=>this.setState({screen:'onboarding', obStep:0}),
+      navTabs, tabBarStyle:(scr!=='onboarding'&&scr!=='chat'&&scr!=='login')?'display:flex;flex:none;border-top:1.5px solid #2a2118;background:#fdf8ec':'display:none',
+      obTitle:step.title, obSub:step.sub, obProgress:(S.obStep+1)+' / 3', obOptions,
+      skipOb:()=>this.setState({screen:'discover', obStep:0}),
+      stories:this.shelterStories.map((s,i)=>({...s, open:()=>this.openStory(i)})),
+      stackRef:this.stackRef, cards, deckEmpty:rem.length===0,
+      cardDown:e=>this.cardDown(e), cardMove:e=>this.cardMove(e), cardUp:e=>this.cardUp(e),
+      cardClickCap:e=>{ if(this.moved){ e.preventDefault(); e.stopPropagation(); this.moved=false; } },
+      nopeTop:()=>this.fly('nope'), likeTop:()=>this.fly('like'),
+      infoTop:()=>{ if(topId) this.setState({detailId:topId}); },
+      resetDeck:()=>this.setState({swiped:{}, filters:{species:'all',maxDist:25,maxAge:12}}),
+      openFilters:()=>this.setState({showFilters:true}), closeFilters:()=>this.setState({showFilters:false}), showFilters:S.showFilters,
+      filterCount:activeFilters===0?'OFF':String(activeFilters),
+      speciesChips, maxDist:f.maxDist, maxAge:f.maxAge, maxDistLabel:f.maxDist+' KM', maxAgeLabel:f.maxAge+' YRS',
+      setDist:e=>this.setState({filters:{...this.state.filters,maxDist:+e.target.value}}),
+      setAge:e=>this.setState({filters:{...this.state.filters,maxAge:+e.target.value}}),
+      filteredCountLabel:filteredCount+(filteredCount===1?' FLOOF':' FLOOFS'),
+      hasDetail:!!d, d:d||{}, closeDetail:()=>this.setState({detailId:null}),
+      mutualList:mutuals.map((a,i)=>({id:a.id, name:a.name, breedLabel:a.breed.toUpperCase(),
+        cardStyle:'flex:none;width:142px;background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;padding:8px;box-shadow:3px 4px 0 rgba(42,33,24,.12);transform:rotate('+(tilt?(i%2?0.8:-0.8):0)+'deg)',
+        chat:()=>this.openChat(a.id), deets:()=>this.setState({detailId:a.id, screen:'matches'})})),
+      hasMutuals:mutuals.length>0,
+      shortList:liked.filter(a=>!this.matchEligible(a)).map((a,i)=>({id:a.id, name:a.name, breedLabel:a.breed.toUpperCase(), distLabel:a.dist+' KM',
+        rowStyle:'display:flex;align-items:center;gap:12px;background:#fffdf6;border:1.5px solid #2a2118;border-radius:14px;padding:9px 12px;box-shadow:2px 3px 0 rgba(42,33,24,.1);transform:rotate('+(tilt?(i%2?0.4:-0.4):0)+'deg)',
+        chat:()=>this.openChat(a.id), deets:()=>this.setState({detailId:a.id, screen:'matches'})})),
+      hasShortlist:liked.some(a=>!this.matchEligible(a)),
+      shortlistLabel:mutuals.length?'ALSO FAVED':'FAVED, AWAITING SPARKS',
+      noMatches:liked.length===0, likedCountLabel:liked.length+(liked.length===1?' FLOOF FAVED':' FLOOFS FAVED'),
+      chatAnimal:chatA||{}, chatShelterLabel:chatA?('VIA '+chatA.shelter.toUpperCase()):'', chatMsgs, chatQuick,
+      quickVisible:thread.filter(m=>m.from==='me').length===0 && !!chatA,
+      chatDraft:S.chatDraft, draftChange:e=>this.setState({chatDraft:e.target.value}),
+      sendChat:()=>this.send(this.state.chatDraft),
+      backToMatches:()=>this.setState({screen:'matches'}),
+      statSeen:seen, statLiked:liked.length, statMutual:mutuals.length,
+      prefChips:prefChips.length?prefChips:['Quiz not taken (rebel)'],
+      retakeQuiz:()=>this.setState({screen:'onboarding', obStep:0, prefs:{}}),
+      logout:()=>this.setState({screen:'login', loginMode:'signin', loginName:'', loginEmail:'', loginPass:''}),
+      hasStory:!!story, story:story?{...story, shelterUpper:story.shelter.toUpperCase()}:{}, storyBars,
+      storyPicSlot:storySlot(sPic), storyPicNum:sPic+1,
+      storyThumbs:[0,1,2].map(p=>({slot:storySlot(p), label:'PIC '+(p+1)})),
+      stopClick:e=>e.stopPropagation(),
+      advanceStory:()=>this.nextStoryStep(),
+      closeStory:e=>{ if(e)e.stopPropagation(); clearTimeout(this.storyT); this.setState({storyIdx:null, storyPic:0}); },
+      hasMatch:!!matchA, match:matchA||{}, confettiBits,
+      matchChat:()=>this.openChat(S.matchId),
+      matchDismiss:()=>this.setState({matchId:null})
+    };
+  }
+}
+</script>
+</body>
+</html>
