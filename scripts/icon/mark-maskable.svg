@@ -1,9 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Furever">
   <!--
-    Furever app mark. A paw whose pad is a heart, printed as two plates that
-    sit slightly out of register — the app's `--shadow-paper` (3px 4px 0, hard,
-    no blur) scaled up until the misprint becomes the logo.
-    Palette is straight from src/index.css; no colours live only here.
+    Maskable variant of mark.svg for Android adaptive icons. Same art, glyph
+    pulled in to 74% so it clears the circular crop's safe zone (the centre 80%).
   -->
   <defs>
     <pattern id="tooth" width="46" height="46" patternUnits="userSpaceOnUse">
@@ -21,8 +19,10 @@
   <rect width="512" height="512" fill="#f6f0e3"/>
   <rect width="512" height="512" fill="url(#tooth)"/>
 
-  <g transform="rotate(-4 256 256) translate(0 12)">
-    <use href="#paw" x="12" y="15" fill="#2a2118"/>
-    <use href="#paw" fill="#c2593c"/>
+  <g transform="translate(256 256) scale(.74) translate(-256 -256)">
+    <g transform="rotate(-4 256 256) translate(0 12)">
+      <use href="#paw" x="12" y="15" fill="#2a2118"/>
+      <use href="#paw" fill="#c2593c"/>
+    </g>
   </g>
 </svg>
