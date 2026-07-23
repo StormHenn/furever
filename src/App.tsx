@@ -1,9 +1,43 @@
+import { IOSFrame } from './components/IOSFrame'
+import { TabBar } from './components/TabBar'
+import { Login } from './screens/Login'
+import { Onboarding } from './screens/Onboarding'
+import { Discover } from './screens/Discover'
+import { Matches } from './screens/Matches'
+import { Chat } from './screens/Chat'
+import { Profile } from './screens/Profile'
+import { DetailSheet } from './overlays/DetailSheet'
+import { FiltersSheet } from './overlays/FiltersSheet'
+import { StoryViewer } from './overlays/StoryViewer'
+import { MatchCelebration } from './overlays/MatchCelebration'
+import { useApp } from './state/AppContext'
+import { useAutoReply } from './hooks/useAutoReply'
+import { useStoryPlayer } from './hooks/useStoryPlayer'
+
+const SCREENS = {
+  login: Login,
+  onboarding: Onboarding,
+  discover: Discover,
+  matches: Matches,
+  chat: Chat,
+  profile: Profile,
+} as const
+
 export default function App() {
+  const { state } = useApp()
+  useAutoReply()
+  useStoryPlayer()
+  const Screen = SCREENS[state.screen]
+  const showTabs = state.screen !== 'login' && state.screen !== 'onboarding' && state.screen !== 'chat'
+
   return (
-    <div className="min-h-svh bg-paper bg-dots text-ink flex flex-col items-center justify-center gap-4">
-      <h1 className="font-display text-5xl -rotate-1">furever<span className="text-rust">.</span></h1>
-      <p className="font-mono text-xs tracking-[0.2em] text-ink/60">SWIPE · SMOOSH · ADOPT</p>
-      <div className="bg-card border-[1.5px] border-ink rounded-2xl px-6 py-4 shadow-paper">Scaffold OK</div>
-    </div>
+    <IOSFrame>
+      <Screen />
+      {showTabs && <TabBar />}
+      <DetailSheet />
+      <FiltersSheet />
+      <StoryViewer />
+      <MatchCelebration />
+    </IOSFrame>
   )
 }
