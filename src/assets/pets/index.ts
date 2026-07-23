@@ -1,7 +1,3 @@
-import story0 from './story-0.jpg'
-import story1 from './story-1.jpg'
-import story2 from './story-2.jpg'
-
 // Each pet's photos live in their own folder, named by the pet id:
 //   src/assets/pets/haku/1.jpg, 2.jpg, 3.jpg
 // To swap a pic for the mock, just replace a file in the pet's folder —
@@ -17,8 +13,6 @@ for (const path of Object.keys(files).sort()) {
   ;(petPhotos[folder] ??= []).push(files[path])
 }
 
-const storyPhotos = [story0, story1, story2]
-
 /** A pet's photo at the given slot (defaults to the first). */
 export function petPhoto(id: string, idx = 0): string | undefined {
   return petPhotos[id]?.[idx]
@@ -27,8 +21,4 @@ export function petPhoto(id: string, idx = 0): string | undefined {
 /** How many photos a pet has. */
 export function petPhotoCount(id: string): number {
   return petPhotos[id]?.length ?? 0
-}
-
-export function storyPhoto(idx: number): string | undefined {
-  return storyPhotos[idx]
 }
