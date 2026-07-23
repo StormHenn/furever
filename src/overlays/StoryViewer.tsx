@@ -94,7 +94,7 @@ export function StoryViewer() {
   return (
     <div
       data-testid="story-viewer"
-      className="absolute inset-0 z-[60] flex animate-fade-in cursor-pointer select-none flex-col overflow-hidden bg-[#1c1712]"
+      className="no-callout absolute inset-0 z-[60] flex animate-fade-in cursor-pointer select-none flex-col overflow-hidden bg-[#1c1712]"
       style={overlayStyle}
       onPointerDown={hold}
       onPointerMove={drag}
@@ -139,6 +139,9 @@ export function StoryViewer() {
 
       <div className="relative mx-3.5 flex-1">
         <AnimalPhoto id={slide.photoId} name={story.shelter} shape="rounded" radius={16} />
+        {/* A pane of glass over the photo: the slide reads as one card, and no
+            touch can reach the image to start an iOS lift or a copy menu. */}
+        <div data-testid="story-photo-shield" className="absolute inset-0 rounded-2xl" />
       </div>
 
       {slide.kind === 'upcoming' ? (

@@ -52,6 +52,17 @@
     background-image: radial-gradient(rgba(42, 33, 24, 0.05) 1px, transparent 1px);
     background-size: 14px 14px;
   }
+
+  /* Anything wearing this is a solid object, not content to be harvested.
+     iOS otherwise answers a long press by peeling the photo off the page for
+     a drag or a copy menu — and it cancels our pointer stream on the way out,
+     which is what kept swipe-to-dismiss from ever firing on a phone. */
+  .no-callout {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
 }
 
 html,

@@ -21,8 +21,11 @@ export function AnimalPhoto({ id, src, name, shape, radius = 10, className = '' 
         src={resolved}
         alt={name}
         draggable={false}
-        style={{ ...style, WebkitUserDrag: 'none' } as CSSProperties}
-        className={`h-full w-full object-cover ${className}`}
+        // draggable only covers desktop drag; .no-callout handles the iOS
+        // long-press peel. Belt and braces: the photo also stays out of hit
+        // testing, so a touch lands on whatever card is holding it.
+        style={{ ...style, pointerEvents: 'none' } as CSSProperties}
+        className={`no-callout h-full w-full object-cover ${className}`}
       />
     )
   }

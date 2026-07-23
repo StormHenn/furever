@@ -53,6 +53,26 @@ describe('StoryViewer', () => {
   })
 })
 
+describe('StoryViewer treats the whole slide as one card', () => {
+  it('covers the photo with a shield so the finger never touches the image', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    // iOS peels a long-pressed <img> off the page and cancels the pointer
+    // stream mid-gesture, which killed the swipe-down. Nothing may reach it.
+    expect(screen.getByTestId('story-photo-shield')).toBeInTheDocument()
+    expect(screen.getByRole('img').style.pointerEvents).toBe('none')
+  })
+
+  it('a press that the OS cancels mid-drag still dismisses once past the threshold', () => {
+    render(<AppProvider><Open /></AppProvider>)
+    const overlay = screen.getByTestId('story-viewer')
+
+    fireEvent.pointerDown(overlay, { clientY: 100 })
+    fireEvent.pointerMove(overlay, { clientY: 220 }) // 120px, past the threshold
+    fireEvent.pointerCancel(overlay)
+    expect(screen.getByText('story:none')).toBeInTheDocument()
+  })
+})
+
 describe('StoryViewer press-and-hold to pause', () => {
   afterEach(() => vi.useRealTimers())
 
