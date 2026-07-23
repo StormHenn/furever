@@ -40,5 +40,8 @@ render mark.svg          192 icon-192.png
 render mark.svg          512 icon-512.png
 render mark-maskable.svg 192 icon-maskable-192.png
 render mark-maskable.svg 512 icon-maskable-512.png
-cp "$root/scripts/icon/mark.svg" "$out/favicon.svg"
+# PNG fallbacks for browsers that won't take an SVG favicon (older Safari).
+render mark-favicon.svg   32 favicon-32.png
+render mark-favicon.svg   96 favicon-96.png
+cp "$root/scripts/icon/mark-favicon.svg" "$out/favicon.svg"
 echo "  favicon.svg"
